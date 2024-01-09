@@ -1,5 +1,6 @@
 package com.br.fiap.videostream.infra.s3;
 
+import com.br.fiap.videostream.domain.entidades.Midia;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,6 +13,9 @@ import software.amazon.awssdk.transfer.s3.model.Upload;
 import software.amazon.awssdk.transfer.s3.model.UploadRequest;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
@@ -31,13 +35,16 @@ class MultipartUploadDataTest {
 	}
 
 	@Test
-	void deveFazerOUploadDeUmaMidiaNoS3() {
+	void deveFazerOUploadDeUmaMidiaNoS3() throws FileNotFoundException {
 		//Arrange
-		var arquivo = new File("src/test/resources/ArquivoDeTeste.txt");
+		var arquivo = new FileInputStream("src/test/resources/ArquivoDeTeste.txt");
 		when(s3TransferManager.upload(any(UploadRequest.class))).thenReturn(any(Upload.class));
+		var midia = new Midia();
+		midia.setMidiaStream(arquivo);
+		midia.setNomeDaMidia("ArquivoDeTeste.txt");
 
 		//Act
-		this.multipartUploadData.enviarArquivo(arquivo);
+		this.multipartUploadData.enviarArquivo(midia);
 
 		//Assert
 		verify(s3TransferManager, times(1)).upload(any(UploadRequest.class));

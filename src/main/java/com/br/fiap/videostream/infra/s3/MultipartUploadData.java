@@ -1,5 +1,7 @@
 package com.br.fiap.videostream.infra.s3;
 
+import com.br.fiap.videostream.adapters.armazenamento.ArmazenamentoService;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,11 +11,11 @@ import software.amazon.awssdk.transfer.s3.S3TransferManager;
 import software.amazon.awssdk.transfer.s3.model.Upload;
 import software.amazon.awssdk.transfer.s3.model.UploadRequest;
 
-import java.io.File;
-import java.util.UUID;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Component
-public class MultipartUploadData {
+public class MultipartUploadData implements ArmazenamentoService {
 
 	private S3TransferManager s3TransferManager;
 
@@ -25,34 +27,33 @@ public class MultipartUploadData {
 		this.s3TransferManager = s3TransferManager;
 	}
 
-	public Upload enviarArquivo(File arquivo) {
-		System.out.println(arquivo.getAbsolutePath());
-		System.out.println(arquivo.exists());
+	public Upload enviarArquivo(Midia midia) {
 
 		var uploadRequestBody = UploadRequest
 			.builder()
-			.requestBody(adicionarArquivoNaRequisicao(arquivo))
-			.putObjectRequest(prepararRequisicao(arquivo))
+			.requestBody(adicionarArquivoNaRequisicao(midia.getMidia()))
+			.putObjectRequest(prepararRequisicao(midia.criarDestino()))
 			.build();
 
 		return this.s3TransferManager.upload(uploadRequestBody);
 	}
 
-	private String nomeDaPasta() {
-		return UUID.randomUUID().toString();
-	}
-
-	private PutObjectRequest prepararRequisicao(File arquivo) {
+	private PutObjectRequest prepararRequisicao(String destino) {
 		return PutObjectRequest
 			.builder()
 			.bucket(bucket)
-			.key("%s/%s".formatted(nomeDaPasta(), arquivo.getName()))
+			.key(destino)
 			.build();
 
 	}
 
-	private AsyncRequestBody adicionarArquivoNaRequisicao(File arquivo) {
-		return AsyncRequestBody.fromFile(arquivo);
+	private AsyncRequestBody adicionarArquivoNaRequisicao(InputStream arquivo) {
+		try {
+			return AsyncRequestBody.fromBytes(arquivo.readAllBytes());
+		} catch (IOException ex) {
+			throw new RuntimeException("Houve um erro ao ler a midia");
+		}
+
 	}
 
 }
