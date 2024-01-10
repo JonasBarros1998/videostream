@@ -29,8 +29,6 @@ class EnviarMensagemParaIniciarPipelineTest {
 
 	AutoCloseable mock;
 
-
-
 	@BeforeEach
 	void setup() {
 		mock = MockitoAnnotations.openMocks(this);

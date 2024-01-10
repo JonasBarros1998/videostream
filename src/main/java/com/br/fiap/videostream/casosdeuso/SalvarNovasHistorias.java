@@ -20,8 +20,10 @@ public class SalvarNovasHistorias {
 
 	public Mono<HistoriaDTO> salvar(HistoriaForm historiasForm) {
 		var historiaDTO = new HistoriaDTO(historiasForm).converterHistoriaFormParaHistoriaDTO();
+		Integer visualizacao = 0;
+
 		return this.historiasRepository
-			.save(new Historia(historiaDTO.getTitulo(), historiaDTO.getDescricao(), historiaDTO.getCategoria()))
+			.save(new Historia(historiaDTO.getTitulo(), historiaDTO.getDescricao(), historiaDTO.getCategoria(), visualizacao))
 			.map(item -> historiaDTO);
 	}
 }

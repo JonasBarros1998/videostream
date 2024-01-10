@@ -2,9 +2,16 @@ package com.br.fiap.videostream.domain;
 
 public class AdicionarUmaVisualizacao {
 
-	Integer visualizacao = 1;
+	private Integer visualizacao = 1;
+
+	private Integer somarVisualizacoes;
 
 	public Integer adicionar(Integer quantidadeTotalDeVisualizacoes) {
-		return quantidadeTotalDeVisualizacoes + visualizacao;
+		somarVisualizacoes = quantidadeTotalDeVisualizacoes + visualizacao;
+		return somarVisualizacoes;
+	}
+
+	public Integer getVisualizacao() {
+		return somarVisualizacoes;
 	}
 }
