@@ -1,8 +1,6 @@
 package com.br.fiap.videostream.casosdeuso;
 
 import com.br.fiap.videostream.infra.s3.MultipartUploadData;
-import com.br.fiap.videostream.infra.sqs.Mensagens;
-import com.br.fiap.videostream.view.DTO.UploadDeMidiaDTO;
 import com.br.fiap.videostream.view.forms.UploadDeMidiaForm;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,23 +10,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
-import org.springframework.core.io.buffer.DefaultDataBufferFactory;
-import software.amazon.awssdk.transfer.s3.internal.model.DefaultUpload;
-import software.amazon.awssdk.transfer.s3.internal.progress.DefaultTransferProgress;
-import software.amazon.awssdk.transfer.s3.model.CompletedUpload;
 import software.amazon.awssdk.transfer.s3.model.Upload;
-import software.amazon.awssdk.transfer.s3.progress.TransferProgress;
-import software.amazon.awssdk.transfer.s3.progress.TransferProgressSnapshot;
 
 import java.io.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

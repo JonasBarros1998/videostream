@@ -1,6 +1,5 @@
 package com.br.fiap.videostream.casosdeuso;
 
-import com.br.fiap.videostream.casosdeuso.erros.ProcessarJsonException;
 import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.infra.sqs.Mensagens;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,12 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.assertj.core.api.Assertions;
-import reactor.core.publisher.Mono;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

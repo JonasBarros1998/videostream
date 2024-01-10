@@ -20,7 +20,7 @@ public class UploadDeMidia {
 	private Midia midia = new Midia();
 
 	@Autowired
-	UploadDeMidia(EnviarMensagemParaIniciarPipeline pipeline, ArmazenamentoService armazenamentoService) {
+	public UploadDeMidia(EnviarMensagemParaIniciarPipeline pipeline, ArmazenamentoService armazenamentoService) {
 		this.pipeline = pipeline;
 		this.armazenamentoService = armazenamentoService;
 	}
