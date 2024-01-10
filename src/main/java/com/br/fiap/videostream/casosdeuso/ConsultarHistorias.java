@@ -1,8 +1,8 @@
 package com.br.fiap.videostream.casosdeuso;
 
-import com.br.fiap.videostream.domain.entidades.Favoritos;
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
+import com.br.fiap.videostream.services.IConsultarHistorias;
 import com.br.fiap.videostream.view.DTO.FavoritosDTO;
 import com.br.fiap.videostream.view.DTO.HistoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,28 +11,33 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Service
-public class ConsultasDeHistorias {
+public class ConsultarHistorias implements IConsultarHistorias {
 
 	private HistoriasRepository historiasRepository;
 
 	private FavoritosRepository favoritosRepository;
 
 	@Autowired
-	public ConsultasDeHistorias(HistoriasRepository historiasRepository, FavoritosRepository favoritosRepository) {
+	public ConsultarHistorias(HistoriasRepository historiasRepository, FavoritosRepository favoritosRepository) {
 		this.historiasRepository = historiasRepository;
 		this.favoritosRepository = favoritosRepository;
 	}
 
-	public Flux<HistoriaDTO> consultarTodas(Pageable paginacao) {
+	public Mono<List<HistoriaDTO>> consultarTodas(Pageable paginacao) {
 		return this.historiasRepository
-			.findAllByDataDePublicacao(paginacao)
-			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia));
+			.findAll(paginacao)
+			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia))
+			.collectList()
+			.map(item -> item);
+
 	}
 
 	public Mono<HistoriaDTO> consultarPorTitulo(String titulo) {
 		return this.historiasRepository
-			.findAllByTitulo(titulo)
+			.findByTitulo(titulo)
 			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia));
 	}
 
@@ -41,10 +46,11 @@ public class ConsultasDeHistorias {
 			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia));
 	}
 
-	public Flux<FavoritosDTO> consultarPorFavoritos() {
-		var historiaDTO = new FavoritosDTO();
-		return this.favoritosRepository.findAll()
-			.map(favoritos -> historiaDTO.converterFavoritosParaFavoritosDTO(favoritos));
+	public Mono<List<FavoritosDTO>> consultarPorFavoritos(Pageable paginacao) {
+		return this.favoritosRepository.findAll(paginacao)
+			.map(favoritos -> new FavoritosDTO().converterFavoritosParaFavoritosDTO(favoritos))
+			.collectList()
+			.map(item -> item);
 	}
 
 }

@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-public class SalvarNovasHistoriasTest {
+class SalvarNovasHistoriasTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -35,7 +35,6 @@ public class SalvarNovasHistoriasTest {
 		mock = MockitoAnnotations.openMocks(this);
 		this.salvarNovasHistorias = new SalvarNovasHistorias(historiasRepository);
 	}
-
 
 	@Test
 	void deveSalvarNovasHistorias() {

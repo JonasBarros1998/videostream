@@ -21,7 +21,7 @@ public class MarcarVideoComoFavorito {
 		this.historiasRepository = historiasRepository;
 	}
 
-	public Mono<HistoriaDTO> marcarComoFavorito(String id) {
+	public Mono<HistoriaDTO> adicionar(String id) {
 		var historiaDTO = new HistoriaDTO();
 
 		return this.historiasRepository
