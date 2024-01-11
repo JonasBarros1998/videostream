@@ -5,6 +5,7 @@ import com.br.fiap.videostream.casosdeuso.MarcarHistoriaComoFavorita;
 import com.br.fiap.videostream.casosdeuso.SalvarNovasHistorias;
 import com.br.fiap.videostream.domain.entidades.Favoritos;
 import com.br.fiap.videostream.domain.entidades.Historia;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
@@ -68,7 +69,7 @@ class HistoriaControllerTest {
 	void deveCriarHistorias() {
 		//Arrange
 		HistoriaForm requestBody = new HistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
-		var historia = new Historia(requestBody.titulo(), requestBody.descricao(), requestBody.categoria(), 0);
+		var historia = new Historia(requestBody.titulo(), requestBody.descricao(), requestBody.categoria(), new Midia(), 0);
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
 
 		//Act & Assert
@@ -85,7 +86,7 @@ class HistoriaControllerTest {
 	void quandoConsultarPorTituloDeveRetornarUmaHistoria() {
 		//Arrange
 		HistoriaForm requestBody = new HistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
-		var historia = new Historia(requestBody.titulo(), requestBody.descricao(), requestBody.categoria(), 0);
+		var historia = new Historia(requestBody.titulo(), requestBody.descricao(), requestBody.categoria(), new Midia(), 0);
 
 		when(historiasRepository.findByTitulo(any(String.class))).thenReturn(Mono.just(historia));
 
@@ -109,7 +110,7 @@ class HistoriaControllerTest {
 		var midiaID = "123456789";
 
 		var adicionarHistoriaComoFavoritoForm = new AdicionarHistoriaComoFavoritoForm("");
-		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, 10);
+		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
 
 		var favoritos = new Favoritos(midiaID);
 		favoritos.addHistorias(historia);

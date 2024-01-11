@@ -2,6 +2,7 @@ package com.br.fiap.videostream.casosdeuso;
 
 
 import com.br.fiap.videostream.domain.entidades.Historia;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
 import com.br.fiap.videostream.view.DTO.HistoriaDTO;
@@ -46,6 +47,7 @@ class SalvarNovasHistoriasTest {
 			historiaDTO.getTitulo(),
 			historiaDTO.getDescricao(),
 			historiaDTO.getCategoria(),
+			new Midia(),
 			0);
 
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));

@@ -22,11 +22,14 @@ public class Historia {
 
 	private Integer visualizacao;
 
-	public Historia(String titulo, String descricao, Categoria categorias, Integer visualizacao) {
+	private Midia midia;
+
+	public Historia(String titulo, String descricao, Categoria categorias,  Midia midia, Integer visualizacao) {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.categorias = categorias;
 		this.visualizacao = visualizacao;
+		this.midia = midia;
 	}
 
 	public String getTitulo() {
@@ -51,6 +54,10 @@ public class Historia {
 
 	public Integer getVisualizacao() {
 		return visualizacao;
+	}
+
+	public Midia getMidia() {
+		return midia;
 	}
 
 }

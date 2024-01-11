@@ -3,12 +3,10 @@ package com.br.fiap.videostream.domain.entidades;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
-@Document
 public class Midia {
 
 	@Transient
@@ -17,6 +15,8 @@ public class Midia {
 	private String nomeDaMidia;
 
 	private String destino;
+
+	public Midia() {}
 
 	@JsonIgnore
 	public InputStream getMidia() {
@@ -40,6 +40,7 @@ public class Midia {
 	}
 
 	public String criarDestino() {
-		return "%s/%s.mp4".formatted(LocalDateTime.now().toString(), this.nomeDaMidia);
+		this.destino = "%s/%s.mp4".formatted(LocalDateTime.now().toString(), this.nomeDaMidia);
+		return this.destino;
 	}
 }

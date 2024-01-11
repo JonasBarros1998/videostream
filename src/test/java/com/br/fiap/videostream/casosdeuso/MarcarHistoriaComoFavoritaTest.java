@@ -2,6 +2,7 @@ package com.br.fiap.videostream.casosdeuso;
 
 import com.br.fiap.videostream.domain.entidades.Favoritos;
 import com.br.fiap.videostream.domain.entidades.Historia;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
@@ -43,7 +44,7 @@ class MarcarHistoriaComoFavoritaTest {
 		//Arrange
 		final var idDaMidia = "123456789";
 		var adicionarHistoriaComoFavorita = new AdicionarHistoriaComoFavoritoForm(idDaMidia);
-		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, 10);
+		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(), 10);
 
 		var favoritos = new Favoritos(idDaMidia);
 		favoritos.addHistorias(historia);

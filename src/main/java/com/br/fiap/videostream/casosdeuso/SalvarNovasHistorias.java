@@ -1,6 +1,7 @@
 package com.br.fiap.videostream.casosdeuso;
 
 import com.br.fiap.videostream.domain.entidades.Historia;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
 import com.br.fiap.videostream.services.ISalvarNovasHistorias;
 import com.br.fiap.videostream.view.DTO.HistoriaDTO;
@@ -22,8 +23,20 @@ public class SalvarNovasHistorias implements ISalvarNovasHistorias {
 	public Mono<HistoriaDTO> salvar(HistoriaForm historiasForm) {
 		var historiaDTO = new HistoriaDTO(historiasForm).converterHistoriaFormParaHistoriaDTO();
 		Integer visualizacao = 0;
+		var midia = new Midia();
+		midia.setNomeDaMidia(historiaDTO.getTitulo()
+			.replace(" ", "_")
+			.replace(",", ""));
+
+		midia.criarDestino();
+
 		return this.historiasRepository
-			.save(new Historia(historiaDTO.getTitulo(), historiaDTO.getDescricao(), historiaDTO.getCategoria(), visualizacao))
+			.save(new Historia(
+				historiaDTO.getTitulo(),
+				historiaDTO.getDescricao(),
+				historiaDTO.getCategoria(),
+				midia,
+				visualizacao))
 			.map(item -> historiaDTO);
 	}
 }

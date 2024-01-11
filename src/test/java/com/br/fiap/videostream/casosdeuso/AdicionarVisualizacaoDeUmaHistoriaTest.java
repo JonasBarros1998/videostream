@@ -1,6 +1,7 @@
 package com.br.fiap.videostream.casosdeuso;
 
 import com.br.fiap.videostream.domain.entidades.Historia;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +41,7 @@ class AdicionarVisualizacaoDeUmaHistoriaTest {
 		//Arrange
 		var id = UUID.randomUUID().toString();
 		when(historiasRepository.findById(id))
-			.thenReturn(Mono.just(new Historia("Uma serie", "Uma descricao", Categoria.FICCAO, 20)));
+			.thenReturn(Mono.just(new Historia("Uma serie", "Uma descricao", Categoria.FICCAO, new Midia(),20)));
 
 		//Act & Assert
 		StepVerifier
