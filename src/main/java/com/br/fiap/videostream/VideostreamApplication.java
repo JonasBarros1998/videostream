@@ -17,18 +17,8 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 public class VideostreamApplication {
 
-	public static void main(String[] args) throws JsonProcessingException, FileNotFoundException {
+	public static void main(String[] args) {
 		SpringApplication.run(VideostreamApplication.class, args);
-		Midia midia = new Midia();
-		midia.setNomeDaMidia("minha_midia.mp4");
-		midia.setMidiaStream(new FileInputStream("src/test/resources/ArquivoDeTeste.txt"));
-
-		ObjectMapper mapper = new ObjectMapper();
-
-		var mp = mapper.writeValueAsString(midia);
-
-		System.out.println(mp);
-
 	}
 
 }

@@ -45,12 +45,19 @@ public class HistoriaDTO implements IHistoriaDTO {
 	}
 
 	public HistoriaDTO converterHistoriaParaHistoriaDTO(Historia historia) {
+		this.titulo = historia.getTitulo();
+		this.descricao = historia.getDescricao();
+		this.id = historia.getId();
+		this.categoria = historia.getCategorias();
+		return this;
+		
+		/*
 		return new HistoriaDTO(
 			historia.getTitulo(),
 			historia.getDescricao(),
 			historia.getCategorias(),
 			historia.getId()
-		);
+		);*/
 	}
 
 	public String getTitulo() {

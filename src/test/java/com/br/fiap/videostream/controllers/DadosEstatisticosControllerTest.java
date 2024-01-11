@@ -3,7 +3,7 @@ package com.br.fiap.videostream.controllers;
 
 import com.br.fiap.videostream.casosdeuso.DadosEstatisticosDasHistorias;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
-import com.br.fiap.videostream.infra.bancodedados.projections.QuantidadeTotalDeVideosEMediaDeVisualizacoesProjection;
+import com.br.fiap.videostream.view.DTO.QuantidadeTotalDeHistoriasFavoritadasDTO;
 import com.br.fiap.videostream.view.DTO.QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import static org.mockito.Mockito.*;
 
@@ -52,6 +51,21 @@ class DadosEstatisticosControllerTest {
 		//Act & Assert
 		webTestClient.get()
 			.uri("/api/buscar/totalDeHistoriasEMediaDeVisualizacoes")
+			.accept(MediaType.APPLICATION_JSON)
+			.exchange()
+			.expectStatus()
+			.isOk();
+	}
+
+	@Test
+	void deveRetornarStatus200AoContarQuantidadeDeHistoriasFavoritadas() {
+		//Arrange
+		when(dadosEstatisticosDasHistorias.buscarQuantidadeTotalDeHistoriasFavoritadas())
+			.thenReturn(Flux.just(new QuantidadeTotalDeHistoriasFavoritadasDTO(10)));
+
+		//Act & Assert
+		webTestClient.get()
+			.uri("/api/buscar/totalDeHistoriasFavoritadas")
 			.accept(MediaType.APPLICATION_JSON)
 			.exchange()
 			.expectStatus()

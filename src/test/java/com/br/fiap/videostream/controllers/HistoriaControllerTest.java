@@ -1,11 +1,15 @@
 package com.br.fiap.videostream.controllers;
 
 import com.br.fiap.videostream.casosdeuso.ConsultarHistorias;
+import com.br.fiap.videostream.casosdeuso.MarcarHistoriaComoFavorita;
 import com.br.fiap.videostream.casosdeuso.SalvarNovasHistorias;
+import com.br.fiap.videostream.domain.entidades.Favoritos;
 import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
+import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
 
+import com.br.fiap.videostream.view.forms.AdicionarHistoriaComoFavoritoForm;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +38,12 @@ class HistoriaControllerTest {
 	@Mock
 	private HistoriasRepository historiasRepository;
 
+	@Mock
+	private FavoritosRepository favoritosRepository;
+
+	@Mock
+	private MarcarHistoriaComoFavorita marcarHistoriaComoFavorita;
+
 	@InjectMocks
 	private ConsultarHistorias consultarHistorias;
 
@@ -49,7 +59,8 @@ class HistoriaControllerTest {
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		salvarNovasHistorias = new SalvarNovasHistorias(historiasRepository);
-		historiasController = new HistoriasController(salvarNovasHistorias, consultarHistorias);
+		marcarHistoriaComoFavorita = new MarcarHistoriaComoFavorita(favoritosRepository, historiasRepository);
+		historiasController = new HistoriasController(salvarNovasHistorias, consultarHistorias, marcarHistoriaComoFavorita);
 		this.webTestClient = WebTestClient.bindToController(historiasController).build();
 	}
 
@@ -89,6 +100,33 @@ class HistoriaControllerTest {
 			.exchange()
 			.expectStatus()
 			.isOk();
+	}
+
+
+	@Test
+	void deveRetornarStatus200AoAdicionarHisotriaComoFavorita() {
+		//Arrange
+		var midiaID = "123456789";
+
+		var adicionarHistoriaComoFavoritoForm = new AdicionarHistoriaComoFavoritoForm("");
+		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, 10);
+
+		var favoritos = new Favoritos(midiaID);
+		favoritos.addHistorias(historia);
+
+		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
+		when(favoritosRepository.save(any(Favoritos.class))).thenReturn(Mono.just(favoritos));
+
+		//Act & Assert
+		webTestClient.post()
+			.uri("/api/historias/favoritos")
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.bodyValue(adicionarHistoriaComoFavoritoForm)
+			.exchange()
+			.expectStatus()
+			.isCreated();
+
 	}
 
 }

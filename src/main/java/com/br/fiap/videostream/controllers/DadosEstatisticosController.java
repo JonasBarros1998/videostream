@@ -1,6 +1,5 @@
 package com.br.fiap.videostream.controllers;
 
-import com.br.fiap.videostream.infra.bancodedados.projections.QuantidadeTotalDeHistoriasFavoritadasProjection;
 import com.br.fiap.videostream.services.IDadosEstatisticosDasHistorias;
 import com.br.fiap.videostream.view.DTO.QuantidadeTotalDeHistoriasFavoritadasDTO;
 import com.br.fiap.videostream.view.DTO.QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO;
