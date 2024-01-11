@@ -2,38 +2,39 @@ package com.br.fiap.videostream.casosdeuso;
 
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
-import com.br.fiap.videostream.view.DTO.QuantidadeTotalDeFavoritosDTO;
+import com.br.fiap.videostream.services.IDadosEstatisticosDasHistorias;
+import com.br.fiap.videostream.view.DTO.QuantidadeTotalDeHistoriasFavoritadasDTO;
 import com.br.fiap.videostream.view.DTO.QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class DadosEstatisticosDasHistorias {
+public class DadosEstatisticosDasHistorias implements IDadosEstatisticosDasHistorias {
 
 	private HistoriasRepository historiasRepository;
 
 	private FavoritosRepository favoritosRepository;
 
 	@Autowired
-	public DadosEstatisticosDasHistorias(HistoriasRepository historiasRepository, FavoritosRepository favoritosRepository) {
+	public DadosEstatisticosDasHistorias(
+		HistoriasRepository historiasRepository,
+		FavoritosRepository favoritosRepository) {
 		this.historiasRepository = historiasRepository;
 		this.favoritosRepository = favoritosRepository;
 	}
 
-	public Mono<QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO> buscarQuantidadeTotalDeVideosEMediaDeVisualizacoes() {
-		return this.historiasRepository
-			.obterQuantidadeTotalDeVideosEMediaDeVisualizacoes()
-			.map(dadosEstatisticos ->
-				new QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO(
-					dadosEstatisticos.getMediaVisualizacoes(),
-					dadosEstatisticos.getTotalDeVideos()
-				));
+	@Override
+	public Flux<QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO> buscarQuantidadeTotalDeHistoriasEMediaDeVisualizacoes() {
+		return this.historiasRepository.obterQuantidadeTotalDeVideosEMediaDeVisualizacoes()
+			.map(item ->
+				new QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO(item.getMediaDeVisualizacoes(), item.getTotalDeHistorias()));
 	}
 
-	public Mono<QuantidadeTotalDeFavoritosDTO> obterTodosOsVideosFavoritados() {
+	public Flux<QuantidadeTotalDeHistoriasFavoritadasDTO> buscarQuantidadeTotalDeHistoriasFavoritadas() {
 		return this.favoritosRepository
 			.obterTodosOsVideosFavoritados()
-			.map(favoritos -> new QuantidadeTotalDeFavoritosDTO(favoritos.totalDeVideosFavoritados()));
+			.map(favoritos -> new QuantidadeTotalDeHistoriasFavoritadasDTO(favoritos.getTotalDeHistoriasFavoritadas()));
 	}
 }

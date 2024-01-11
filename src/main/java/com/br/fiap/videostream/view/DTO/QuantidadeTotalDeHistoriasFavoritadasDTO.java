@@ -1,6 +1,6 @@
 package com.br.fiap.videostream.view.DTO;
 
-public record QuantidadeTotalDeFavoritosDTO(
+public record QuantidadeTotalDeHistoriasFavoritadasDTO(
 	Integer totalDeFavoritos
 ) {
 }

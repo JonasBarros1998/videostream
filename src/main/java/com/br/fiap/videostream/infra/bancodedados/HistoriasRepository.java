@@ -1,8 +1,9 @@
 package com.br.fiap.videostream.infra.bancodedados;
 
 import com.br.fiap.videostream.domain.entidades.Historia;
-import com.br.fiap.videostream.infra.bancodedados.projections.InformacoesBasicaDosVideosProjection;
+import com.br.fiap.videostream.infra.bancodedados.projections.QuantidadeTotalDeVideosEMediaDeVisualizacoesProjection;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
@@ -12,8 +13,8 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface HistoriasRepository extends ReactiveMongoRepository<Historia, String> {
 
-	@Query(value="{ '$group': {_id: null, totalDeVideos: {$sum: 1}, mediaVisualizacoes: {$avg: '$visualizacao'}}}")
-	Mono<InformacoesBasicaDosVideosProjection> obterQuantidadeTotalDeVideosEMediaDeVisualizacoes();
+	@Aggregation("{ $group: { _id: 0, totalDeHistorias: { $sum: 1 }, mediaDeVisualizacoes: {$avg: '$visualizacao'} } }")
+	Flux<QuantidadeTotalDeVideosEMediaDeVisualizacoesProjection> obterQuantidadeTotalDeVideosEMediaDeVisualizacoes();
 
 	Flux<Historia> findAllByDataDePublicacaoDate(Pageable paginacao);
 

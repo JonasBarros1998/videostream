@@ -1,9 +1,9 @@
 package com.br.fiap.videostream.infra.bancodedados;
 
 import com.br.fiap.videostream.domain.entidades.Favoritos;
-import com.br.fiap.videostream.domain.entidades.Historia;
-import com.br.fiap.videostream.infra.bancodedados.projections.QuantidadeTotalDosVideosFavoritadosProjection;
+import com.br.fiap.videostream.infra.bancodedados.projections.QuantidadeTotalDeHistoriasFavoritadasProjection;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ public interface FavoritosRepository extends ReactiveMongoRepository<Favoritos, 
 	@Query("{}")
 	Flux<Favoritos> findAll(Pageable pageable);
 
-	@Query(value="{ '$group': {_id: null, totalDeVideosFavoritados: {$sum: 1}}}")
-	Mono<QuantidadeTotalDosVideosFavoritadosProjection> obterTodosOsVideosFavoritados();
+	@Aggregation(value="{ $group: {_id: 0, totalDeHistoriasFavoritadas: {$sum: 1} } }")
+	Flux<QuantidadeTotalDeHistoriasFavoritadasProjection> obterTodosOsVideosFavoritados();
 
 }
