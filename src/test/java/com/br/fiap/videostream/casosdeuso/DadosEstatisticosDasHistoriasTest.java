@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class BuscarDadosEstatisticosDasMidiasTest {
+class DadosEstatisticosDasHistoriasTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -27,14 +27,14 @@ class BuscarDadosEstatisticosDasMidiasTest {
 	private FavoritosRepository favoritosRepository;
 
 	@InjectMocks
-	private BuscarDadosEstatisticosDasMidias buscarDadosEstatisticosDasMidias;
+	private DadosEstatisticosDasHistorias dadosEstatisticosDasHistorias;
 
 	AutoCloseable mock;
 
 	@BeforeEach
 	void setup() {
 		mock = MockitoAnnotations.openMocks(this);
-		this.buscarDadosEstatisticosDasMidias = new BuscarDadosEstatisticosDasMidias(historiasRepository, favoritosRepository);
+		this.dadosEstatisticosDasHistorias = new DadosEstatisticosDasHistorias(historiasRepository, favoritosRepository);
 	}
 
 	InformacoesBasicaDosVideosProjection informacoesBasicaDosVideosProjectionImplementacao() {
@@ -66,7 +66,7 @@ class BuscarDadosEstatisticosDasMidiasTest {
 
 		//Act & Assert
 		StepVerifier
-			.create(buscarDadosEstatisticosDasMidias.buscarQuantidadeTotalDeVideosEMediaDeVisualizacoes())
+			.create(dadosEstatisticosDasHistorias.buscarQuantidadeTotalDeVideosEMediaDeVisualizacoes())
 			.expectNextMatches(verificar -> verificar.totalDeVideos() != null && verificar.mediaDeVisualizacoes() != null)
 			.expectComplete()
 			.verify();
@@ -82,7 +82,7 @@ class BuscarDadosEstatisticosDasMidiasTest {
 
 		//Act & Assert
 		StepVerifier
-			.create(buscarDadosEstatisticosDasMidias.obterTodosOsVideosFavoritados())
+			.create(dadosEstatisticosDasHistorias.obterTodosOsVideosFavoritados())
 			.expectNextMatches(verificar -> verificar.totalDeFavoritos() != null)
 			.expectComplete()
 			.verify();

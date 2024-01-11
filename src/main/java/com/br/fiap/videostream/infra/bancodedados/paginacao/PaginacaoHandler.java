@@ -23,25 +23,43 @@ public class PaginacaoHandler implements HandlerMethodArgumentResolver {
 	}
 
 	@Override
-	public Mono<Object> resolveArgument(MethodParameter methodParameter, BindingContext bindingContext, ServerWebExchange serverWebExchange) {
+	public Mono<Object> resolveArgument(MethodParameter methodParameter, BindingContext bindingContext, ServerWebExchange capturarRequisicao) {
 
-		List<String> paginas = serverWebExchange
+		List<String> paginas = capturarRequisicao
 			.getRequest()
 			.getQueryParams()
 			.getOrDefault("page", List.of(pagina));
 
-		List<String> tamanhoDosItensDasPaginas = serverWebExchange
+		List<String> tamanhoDosItensDasPaginas = capturarRequisicao
 			.getRequest()
 			.getQueryParams()
-			.getOrDefault("size", List.of(serverWebExchange.getRequest().getQueryParams().getFirst("size")));
+			.getOrDefault("size", List.of(capturarRequisicao.getRequest().getQueryParams().getFirst("size")));
+
+		Sort sort = capturarParametroDoTipoSort(capturarRequisicao);
 
 		return Mono.just(
 			PageRequest.of(
 				Integer.parseInt(paginas.get(0)),
-				Math.min(Integer.parseInt(tamanhoDosItensDasPaginas.get(0)), tamanhoMaximo)
+				Math.min(Integer.parseInt(tamanhoDosItensDasPaginas.get(0)), tamanhoMaximo),
+				sort
 			)
 		);
+	}
 
+	public Sort capturarParametroDoTipoSort(ServerWebExchange capturarRequisicao) {
+		String parametroSort = capturarRequisicao.getRequest().getQueryParams().getFirst("sort");
 
+		Sort sort = Sort.unsorted();
+
+		if (parametroSort != null) {
+			String[] parts = parametroSort.split(",");
+			if (parts.length == 2) {
+				String campo = parts[0];
+				Sort.Direction ordenacao = Sort.Direction.fromString(parts[1]);
+				sort = Sort.by(ordenacao, campo);
+			}
+		}
+
+		return sort;
 	}
 }

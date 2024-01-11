@@ -41,14 +41,23 @@ public class ConsultarHistorias implements IConsultarHistorias {
 			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia));
 	}
 
-	public Flux<HistoriaDTO> consultarPorCategorias(String categoria) {
-		return this.historiasRepository.findAllByCategorias(categoria)
-			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia));
+	public Mono<List<HistoriaDTO>> consultarPorCategorias(String categoria, Pageable paginacao) {
+		return this.historiasRepository.findAllByCategorias(categoria, paginacao)
+			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia))
+			.collectList()
+			.map(item -> item);
 	}
 
 	public Mono<List<FavoritosDTO>> consultarPorFavoritos(Pageable paginacao) {
 		return this.favoritosRepository.findAll(paginacao)
 			.map(favoritos -> new FavoritosDTO().converterFavoritosParaFavoritosDTO(favoritos))
+			.collectList()
+			.map(item -> item);
+	}
+
+	public Mono<List<HistoriaDTO>> consultarPorDataDePublicacao(Pageable paginacao) {
+		return this.historiasRepository.findAllByDataDePublicacaoDate(paginacao)
+			.map(historia -> new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia))
 			.collectList()
 			.map(item -> item);
 	}

@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class AdicionarVisualizacaoDeUmaMidia {
+public class AdicionarVisualizacaoDeUmaHistoria {
 
 	private HistoriasRepository historiasRepository;
 
 	@Autowired
-	AdicionarVisualizacaoDeUmaMidia(HistoriasRepository historiasRepository) {
+	AdicionarVisualizacaoDeUmaHistoria(HistoriasRepository historiasRepository) {
 		this.historiasRepository = historiasRepository;
 	}
 

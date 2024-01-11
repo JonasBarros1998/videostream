@@ -19,20 +19,20 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class AdicionarVisualizacaoDeUmaMidiaTest {
+class AdicionarVisualizacaoDeUmaHistoriaTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
 
 	@InjectMocks
-	private AdicionarVisualizacaoDeUmaMidia adicionarVisualizacaoDeUmaMidia;
+	private AdicionarVisualizacaoDeUmaHistoria adicionarVisualizacaoDeUmaMidia;
 
 	AutoCloseable mock;
 
 	@BeforeEach
 	void setup() {
 		mock = MockitoAnnotations.openMocks(this);
-		this.adicionarVisualizacaoDeUmaMidia = new AdicionarVisualizacaoDeUmaMidia(historiasRepository);
+		this.adicionarVisualizacaoDeUmaMidia = new AdicionarVisualizacaoDeUmaHistoria(historiasRepository);
 	}
 
 	@Test

@@ -5,12 +5,14 @@ import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
+import com.br.fiap.videostream.view.forms.HistoriaForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
@@ -75,14 +77,15 @@ class ConsultarHistoriasTest {
 	@Test
 	void deveConsultarHistoriasPorCategoria() {
 		//Arrange
+		final Pageable paginacao = PageRequest.of(1, 10);
 		final var tituloDaHistoria = "Um titulo";
 		var historia = new Historia("Um titulo", "Uma descricao", Categoria.ANIMACAO, 10);
-		when(historiasRepository.findAllByCategorias(tituloDaHistoria)).thenReturn(Flux.just(historia));
+		when(historiasRepository.findAllByCategorias(tituloDaHistoria, paginacao)).thenReturn(Flux.just(historia));
 
 		//Act & Assert
 		StepVerifier
-			.create(consultarHistorias.consultarPorCategorias(tituloDaHistoria))
-			.expectNextMatches(verificar -> verificar.getTitulo() .equals(tituloDaHistoria))
+			.create(consultarHistorias.consultarPorCategorias(tituloDaHistoria, paginacao))
+			.expectNextMatches(verificar -> verificar.size() == 1)
 			.expectComplete()
 			.verify();
 	}
@@ -91,7 +94,7 @@ class ConsultarHistoriasTest {
 	void deveConsultarHistoriasPorFavoritos() {
 		//Arrange
 		final var video = "123456789";
-		Pageable paginacao = PageRequest.of(0, 10);
+		final Pageable paginacao = PageRequest.of(0, 10);
 		when(favoritosRepository.findAll(any(Pageable.class))).thenReturn(Flux.just(new Favoritos(video)));
 
 		//Act & Assert
@@ -100,6 +103,24 @@ class ConsultarHistoriasTest {
 			.expectNextMatches(verificar -> verificar.size() == 1)
 			.expectComplete()
 			.verify();
+	}
+
+	@Test
+	void deveBuscarPorDataDePublicacao() {
+		//Arrange
+		final Pageable paginacao = PageRequest.of(1, 10);
+
+		HistoriaForm requestBody = new HistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
+		var historia = new Historia(requestBody.titulo(), requestBody.descricao(), requestBody.categoria(), 0);
+		when(historiasRepository.findAllByDataDePublicacaoDate(any(Pageable.class))).thenReturn(Flux.just(historia));
+
+		//Act & Assert
+		StepVerifier
+			.create(consultarHistorias.consultarPorDataDePublicacao(paginacao))
+			.expectNextMatches(verificar -> verificar.size() == 1)
+			.expectComplete()
+			.verify();
+
 	}
 
 }

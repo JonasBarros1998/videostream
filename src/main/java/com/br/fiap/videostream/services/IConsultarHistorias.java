@@ -12,7 +12,8 @@ public interface IConsultarHistorias {
 
 	Mono<List<HistoriaDTO>> consultarTodas(Pageable paginacao);
 	Mono<HistoriaDTO> consultarPorTitulo(String titulo);
-	Flux<HistoriaDTO> consultarPorCategorias(String categoria);
+	Mono<List<HistoriaDTO>> consultarPorCategorias(String categoria, Pageable paginacao);
 	Mono<List<FavoritosDTO>> consultarPorFavoritos(Pageable paginacao);
+	Mono<List<HistoriaDTO>> consultarPorDataDePublicacao(Pageable paginacao);
 
 }

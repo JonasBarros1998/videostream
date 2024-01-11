@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class BuscarDadosEstatisticosDasMidias {
+public class DadosEstatisticosDasHistorias {
 
 	private HistoriasRepository historiasRepository;
 
 	private FavoritosRepository favoritosRepository;
 
 	@Autowired
-	public BuscarDadosEstatisticosDasMidias(HistoriasRepository historiasRepository, FavoritosRepository favoritosRepository) {
+	public DadosEstatisticosDasHistorias(HistoriasRepository historiasRepository, FavoritosRepository favoritosRepository) {
 		this.historiasRepository = historiasRepository;
 		this.favoritosRepository = favoritosRepository;
 	}

@@ -15,12 +15,12 @@ public interface HistoriasRepository extends ReactiveMongoRepository<Historia, S
 	@Query(value="{ '$group': {_id: null, totalDeVideos: {$sum: 1}, mediaVisualizacoes: {$avg: '$visualizacao'}}}")
 	Mono<InformacoesBasicaDosVideosProjection> obterQuantidadeTotalDeVideosEMediaDeVisualizacoes();
 
-	Flux<Historia> findAllByDataDePublicacao(Pageable paginacao);
+	Flux<Historia> findAllByDataDePublicacaoDate(Pageable paginacao);
 
 	@Query("{}")
 	Flux<Historia> findAll(Pageable pageable);
 
 	Mono<Historia> findByTitulo(String titulo);
 
-	Flux<Historia> findAllByCategorias(String categoria);
+	Flux<Historia> findAllByCategorias(String categoria, Pageable paginacao);
 }

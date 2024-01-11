@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -49,7 +48,7 @@ public class HistoriasController {
 	}
 
 	@GetMapping(value = "/historias/favoritos")
-	public Mono<Page<List<HistoriaDTO>>> buscarPorTitulo(Pageable paginacao) {
+	public Mono<Page<List<HistoriaDTO>>> buscarPorFavoritos(Pageable paginacao) {
 		return this.consultarHistorias.consultarPorFavoritos(paginacao)
 			.mapNotNull(items -> new PageImpl(
 				items,
@@ -58,5 +57,14 @@ public class HistoriasController {
 			);
 	}
 
+	@GetMapping(value = "/historias", params = {"categoria"})
+	public Mono<Page<List<HistoriaDTO>>> buscarPorCategorias(@RequestParam(name="categoria") String categoria, Pageable paginacao) {
+		return this.consultarHistorias.consultarPorCategorias(categoria, paginacao)
+			.mapNotNull(items -> new PageImpl(
+			items,
+			PageRequest.of(paginacao.getPageNumber(), paginacao.getPageSize()),
+			paginacao.getPageSize())
+		);
+	}
 
 }
