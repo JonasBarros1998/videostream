@@ -2,7 +2,8 @@ package com.br.fiap.videostream.controllers;
 
 import com.br.fiap.videostream.adapters.armazenamento.ArmazenamentoService;
 import com.br.fiap.videostream.casosdeuso.EnviarMensagemParaIniciarPipeline;
-import com.br.fiap.videostream.casosdeuso.UploadDeMidia;
+import com.br.fiap.videostream.casosdeuso.EnviarMidiaAoBucket;
+import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
 import com.br.fiap.videostream.view.forms.UploadDeMidiaForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles(value = "test")
 @AutoConfigureMockMvc
 @SpringBootTest
-class UploadDeMidiaControllerTest {
+class EnviarMidiaAoBucketControllerTest {
 
 	@InjectMocks
 	private UploadDeMidiaController uploadDeMidiaController;
@@ -36,13 +37,16 @@ class UploadDeMidiaControllerTest {
 	private WebTestClient webTestClient;
 
 	@Mock
-	UploadDeMidia uploadDeMidia;
+	EnviarMidiaAoBucket enviarMidiaAoBucket;
 
 	@Mock
 	private EnviarMensagemParaIniciarPipeline pipeline;
 
 	@Mock
 	private ArmazenamentoService armazenamentoService;
+
+	@Mock
+	private HistoriasRepository historiasRepository;
 
 
 	@BeforeEach
@@ -58,15 +62,15 @@ class UploadDeMidiaControllerTest {
 
 		Resource resource = new InputStreamResource(new FileInputStream("src/test/resources/ArquivoDeTeste.txt"));
 
-		when(uploadDeMidia.enviar(any(UploadDeMidiaForm.class)))
-			.thenReturn(Mono.just(new UploadDeMidia(pipeline, armazenamentoService)));
+		when(enviarMidiaAoBucket.enviar(any(UploadDeMidiaForm.class), any(String.class)))
+			.thenReturn(Mono.just(new EnviarMidiaAoBucket(pipeline, armazenamentoService, historiasRepository)));
 
 		multipartBodyBuilder.asyncPart("ArquivoDeTeste.txt", Mono.just(resource), Resource.class)
 			.contentType(MediaType.MULTIPART_FORM_DATA);
 
 		//Act & Assert
 		webTestClient.post()
-			.uri("/api/arquivos")
+			.uri("/api/arquivos/{id}", "123456789")
 			.contentType(MediaType.MULTIPART_FORM_DATA)
 			.body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
 			.exchange()

@@ -6,4 +6,6 @@ import software.amazon.awssdk.transfer.s3.model.Upload;
 public interface ArmazenamentoService {
 
 	Upload enviarArquivo(Midia midia);
+
+	String jonas();
 }

@@ -22,7 +22,7 @@ import java.io.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class UploadDeMidiaDTOTest {
+class EnviarMidiaAoBucketDTOTest {
 
 	AutoCloseable mock;
 
@@ -36,7 +36,7 @@ class UploadDeMidiaDTOTest {
 
 	InputStream arquivoDeEntrada = new FileInputStream("src/test/resources/ArquivoDeTeste.txt");
 
-	UploadDeMidiaDTOTest() throws FileNotFoundException {}
+	EnviarMidiaAoBucketDTOTest() throws FileNotFoundException {}
 
 	@BeforeEach
 	void setup() {

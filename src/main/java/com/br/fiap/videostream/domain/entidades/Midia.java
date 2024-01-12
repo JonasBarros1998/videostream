@@ -39,6 +39,10 @@ public class Midia {
 		this.nomeDaMidia = nomeDaMidia;
 	}
 
+	public void setDestino(String destino) {
+		this.destino = destino;
+	}
+
 	public String criarDestino() {
 		this.destino = "%s/%s.mp4".formatted(LocalDateTime.now().toString(), this.nomeDaMidia);
 		return this.destino;

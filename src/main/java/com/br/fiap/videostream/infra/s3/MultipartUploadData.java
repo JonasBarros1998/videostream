@@ -56,4 +56,10 @@ public class MultipartUploadData implements ArmazenamentoService {
 
 	}
 
+	@Override
+	public String jonas() {
+		return "OK chamada";
+	}
+
+
 }

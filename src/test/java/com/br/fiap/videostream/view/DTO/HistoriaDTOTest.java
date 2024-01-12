@@ -1,5 +1,7 @@
 package com.br.fiap.videostream.view.DTO;
 
+import com.br.fiap.videostream.domain.entidades.Historia;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,34 @@ class HistoriaDTOTest {
 		assertThat(converterParaHistoriaDTO).isInstanceOf(HistoriaDTO.class);
 		assertThat(converterParaHistoriaDTO.getTitulo()).isEqualTo("Minha nova serie");
 		assertThat(converterParaHistoriaDTO.getDescricao()).isEqualTo("serie de verão");
+	}
 
+	@Test
+	void deveConverterHistoriaParaHistoriaDTO() {
+		//Arrange
+		var midia = new Midia();
+		midia.criarDestino();
+		midia.setNomeDaMidia("Uma serie");
+		var historia = new Historia("Uma serie", "Uma descricao", Categoria.FICCAO, midia,20);
+
+		//Act
+		HistoriaDTO historiaDTO = new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia);
+
+		//Assert
+		assertThat(historiaDTO).isInstanceOf(HistoriaDTO.class);
+		assertThat(historiaDTO.getTitulo()).isEqualTo("Uma serie");
+		assertThat(historiaDTO.getDescricao()).isEqualTo("Uma descricao");
+		assertThat(historiaDTO.getCategoria()).isEqualTo(Categoria.FICCAO);
+		assertThat(historiaDTO.getMidia().getNomeDaMidia()).isEqualTo("Uma serie");
+	}
+
+	@Test
+	void deveCriarUmaInstanciaDeHistoriaDTO() {
+		//Act
+		var historiaDTO = new HistoriaDTO("Um titulo", "Uma descricao", Categoria.TERROR, "123456789");
+
+		//Assert
+		assertThat(historiaDTO).isInstanceOf(HistoriaDTO.class);
+		assertThat(historiaDTO.getId()).isEqualTo("123456789");
 	}
 }

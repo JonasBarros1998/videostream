@@ -2,6 +2,7 @@ package com.br.fiap.videostream.view.DTO;
 
 import com.br.fiap.videostream.adapters.DTO.IHistoriaDTO;
 import com.br.fiap.videostream.domain.entidades.Historia;
+import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
 import org.springframework.stereotype.Component;
@@ -13,15 +14,17 @@ public class HistoriaDTO implements IHistoriaDTO {
 	private String titulo;
 	private String descricao;
 	private String id;
-
 	private Categoria categoria;
+
+	private Midia midia;
 
 	public HistoriaDTO(){}
 
-	HistoriaDTO(String titulo, String descricao, Categoria categoria) {
+	HistoriaDTO(String titulo, String descricao, Categoria categoria, Midia midia) {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.categoria = categoria;
+		this.midia = midia;
 	}
 
 	HistoriaDTO(String titulo, String descricao, Categoria categoria, String id) {
@@ -40,7 +43,8 @@ public class HistoriaDTO implements IHistoriaDTO {
 		return new HistoriaDTO(
 			this.historiaForm.titulo(),
 			this.historiaForm.descricao(),
-			this.historiaForm.categoria()
+			this.historiaForm.categoria(),
+			this.midia
 		);
 	}
 
@@ -49,6 +53,7 @@ public class HistoriaDTO implements IHistoriaDTO {
 		this.descricao = historia.getDescricao();
 		this.id = historia.getId();
 		this.categoria = historia.getCategorias();
+		this.midia = historia.getMidia();
 		return this;
 		
 		/*
@@ -74,5 +79,9 @@ public class HistoriaDTO implements IHistoriaDTO {
 
 	public Categoria getCategoria() {
 		return categoria;
+	}
+
+	public Midia getMidia() {
+		return midia;
 	}
 }
