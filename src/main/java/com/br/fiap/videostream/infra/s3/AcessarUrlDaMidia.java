@@ -14,7 +14,7 @@ import java.time.Duration;
 @Component
 public class AcessarUrlDaMidia {
 
-	@Value("${aplicacao.s3.buckets.videos-nao-processados}")
+	@Value("${aplicacao.s3.buckets.videos-processados}")
 	private String bucket;
 
 	public String buscarUrlDaMidia(String bucketDeDestino) {

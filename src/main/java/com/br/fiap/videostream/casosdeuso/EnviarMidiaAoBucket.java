@@ -25,6 +25,8 @@ public class EnviarMidiaAoBucket {
 
 	private Historia historia;
 
+	private final String extensao = ".mp4";
+
 	@Autowired
 	public EnviarMidiaAoBucket(
 		EnviarMensagemParaIniciarPipeline pipeline,
@@ -49,7 +51,7 @@ public class EnviarMidiaAoBucket {
 
 				armazenamentoService.enviarArquivo(
 					this.historia.getMidia().getMidia(),
-						this.historia.getMidia().getDestino())
+						this.formatarDestinoDoArquivo(this.historia.getMidia().getDestino()))
 					.completionFuture().thenApply(item -> {
 						try {
 							pipeline.iniciarProcessamentoDeVideo(this.historia.getMidia());
@@ -68,4 +70,9 @@ public class EnviarMidiaAoBucket {
 			.flatMap(Mono::just)
 			.switchIfEmpty(Mono.error(Throwable::new));
 	}
+
+	private String formatarDestinoDoArquivo(String destino) {
+		return destino + this.extensao;
+	}
+
 }

@@ -10,13 +10,20 @@ public class GerarUrlTemporaria {
 
 	private AcessarUrlDaMidia acessarUrlDaMidia;
 
+	private final String extensao = "m3u8";
+
 	@Autowired
 	public GerarUrlTemporaria(AcessarUrlDaMidia acessarUrlDaMidia) {
 		this.acessarUrlDaMidia = acessarUrlDaMidia;
 	}
 
 	public String gerarUrl(HistoriaDTO historiaDTO) {
-		return this.acessarUrlDaMidia.buscarUrlDaMidia(historiaDTO.getMidia().getDestino());
+		final var localizacao = "%s/%s.%s".formatted(
+			historiaDTO.getMidia().getDestino(),
+			historiaDTO.getMidia().getNomeDaMidia(),
+			this.extensao);
+
+		return this.acessarUrlDaMidia.buscarUrlDaMidia(localizacao);
 	}
 
 }

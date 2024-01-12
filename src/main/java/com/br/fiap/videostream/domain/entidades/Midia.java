@@ -36,7 +36,7 @@ public class Midia {
 	}
 
 	public void setNomeDaMidia(String nomeDaMidia) {
-		this.nomeDaMidia = nomeDaMidia;
+		this.nomeDaMidia = nomeDaMidia.replace(" ", "-");
 	}
 
 	public void setDestino(String destino) {
@@ -46,7 +46,7 @@ public class Midia {
 	public String criarDestino() {
 		DateTimeFormatter dataEHoraFormatada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss");
 		var dataEHora = LocalDateTime.now().format(dataEHoraFormatada).toString();
-		this.destino = "%s/%s.m3u8".formatted(dataEHora, this.nomeDaMidia);
+		this.destino = "%s/%s".formatted(dataEHora, this.nomeDaMidia);
 		return this.destino;
 	}
 }

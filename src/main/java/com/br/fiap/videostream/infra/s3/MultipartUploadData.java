@@ -1,7 +1,6 @@
 package com.br.fiap.videostream.infra.s3;
 
 import com.br.fiap.videostream.adapters.armazenamento.ArmazenamentoService;
-import com.br.fiap.videostream.domain.entidades.Midia;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
