@@ -13,15 +13,13 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface HistoriasRepository extends ReactiveMongoRepository<Historia, String> {
 
-	@Aggregation("{ $group: { _id: 0, totalDeHistorias: { $sum: 1 }, mediaDeVisualizacoes: {$avg: '$visualizacao'} } }")
+	@Aggregation(pipeline = {"{$match: {status: true}}","{$group: {_id: null, mediaDeVisualizacoes: {$avg: '$visualizacao'}, totalDeHistorias:  {$sum:  1}}}"})
 	Flux<QuantidadeTotalDeVideosEMediaDeVisualizacoesProjection> obterQuantidadeTotalDeVideosEMediaDeVisualizacoes();
 
-	Flux<Historia> findAllByDataDePublicacaoDate(Pageable paginacao);
-
-	@Query("{}")
+	@Query("{'status':  true}")
 	Flux<Historia> findAll(Pageable pageable);
 
-	Mono<Historia> findByTitulo(String titulo);
+	Mono<Historia> findByTituloAndStatusIsTrue(String titulo);
 
-	Flux<Historia> findAllByCategorias(String categoria, Pageable paginacao);
+	Flux<Historia> findAllByCategoriasAndStatusIsTrue(String categoria, Pageable paginacao);
 }

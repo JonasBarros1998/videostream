@@ -43,12 +43,12 @@ public class ConsultarHistorias implements IConsultarHistorias {
 
 	public Mono<HistoriaDTO> consultarPorTitulo(String titulo) {
 		return this.historiasRepository
-			.findByTitulo(titulo)
+			.findByTituloAndStatusIsTrue(titulo)
 			.map(this::converterHistoriaParahistoriaDTO);
 	}
 
 	public Mono<List<HistoriaDTO>> consultarPorCategorias(String categoria, Pageable paginacao) {
-		return this.historiasRepository.findAllByCategorias(categoria, paginacao)
+		return this.historiasRepository.findAllByCategoriasAndStatusIsTrue(categoria, paginacao)
 			.map(this::converterHistoriaParahistoriaDTO)
 			.collectList()
 			.map(item -> item);
@@ -57,13 +57,6 @@ public class ConsultarHistorias implements IConsultarHistorias {
 	public Mono<List<FavoritosDTO>> consultarPorFavoritos(Pageable paginacao) {
 		return this.favoritosRepository.findAll(paginacao)
 			.map(favoritos -> new FavoritosDTO().converterFavoritosParaFavoritosDTO(favoritos))
-			.collectList()
-			.map(item -> item);
-	}
-
-	public Mono<List<HistoriaDTO>> consultarPorDataDePublicacao(Pageable paginacao) {
-		return this.historiasRepository.findAllByDataDePublicacaoDate(paginacao)
-			.map(this::converterHistoriaParahistoriaDTO)
 			.collectList()
 			.map(item -> item);
 	}

@@ -67,7 +67,7 @@ class ConsultarHistoriasTest {
 		final var tituloDaHistoria = "Um titulo";
 		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
 
-		when(historiasRepository.findByTitulo(any(String.class))).thenReturn(Mono.just(historia));
+		when(historiasRepository.findByTituloAndStatusIsTrue(any(String.class))).thenReturn(Mono.just(historia));
 
 		//Assert & Act
 		StepVerifier
@@ -82,7 +82,7 @@ class ConsultarHistoriasTest {
 		//Arrange
 		final Pageable paginacao = PageRequest.of(1, 10);
 		final var tituloDaHistoria = "Um titulo";
-		when(historiasRepository.findAllByCategorias(tituloDaHistoria, paginacao)).thenReturn(Flux.just(historia));
+		when(historiasRepository.findAllByCategoriasAndStatusIsTrue(tituloDaHistoria, paginacao)).thenReturn(Flux.just(historia));
 
 		//Act & Assert
 		StepVerifier
@@ -105,21 +105,6 @@ class ConsultarHistoriasTest {
 			.expectNextMatches(verificar -> verificar.size() == 1)
 			.expectComplete()
 			.verify();
-	}
-
-	@Test
-	void deveBuscarPorDataDePublicacao() {
-		//Arrange
-		final Pageable paginacao = PageRequest.of(1, 10);
-		when(historiasRepository.findAllByDataDePublicacaoDate(any(Pageable.class))).thenReturn(Flux.just(historia));
-
-		//Act & Assert
-		StepVerifier
-			.create(consultarHistorias.consultarPorDataDePublicacao(paginacao))
-			.expectNextMatches(verificar -> verificar.size() == 1)
-			.expectComplete()
-			.verify();
-
 	}
 
 }

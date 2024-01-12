@@ -82,4 +82,8 @@ public class Historia {
 		this.status = status;
 	}
 
+	public void setVisualizacao(Integer visualizacao) {
+		this.visualizacao = visualizacao;
+	}
+
 }

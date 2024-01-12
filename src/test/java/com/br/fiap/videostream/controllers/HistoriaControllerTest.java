@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -71,6 +70,8 @@ class HistoriaControllerTest {
 	@InjectMocks
 	private HistoriasController historiasController;
 
+	private AdicionarVisualizacaoDeUmaHistoria adicionarVisualizacaoDeUmaHistoria;
+
 	private WebTestClient webTestClient;
 
 	private Historia historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(), 10);
@@ -86,7 +87,8 @@ class HistoriaControllerTest {
 			consultarHistorias,
 			marcarHistoriaComoFavorita,
 			atualizarHistorias,
-			desativarHistorias);
+			desativarHistorias,
+			adicionarVisualizacaoDeUmaHistoria);
 		this.webTestClient = WebTestClient.bindToController(historiasController).build();
 	}
 
@@ -109,7 +111,7 @@ class HistoriaControllerTest {
 	@Test
 	void quandoConsultarPorTituloDeveRetornarUmaHistoriaEStatus200() {
 		//Arrange
-		when(historiasRepository.findByTitulo(any(String.class))).thenReturn(Mono.just(historia));
+		when(historiasRepository.findByTituloAndStatusIsTrue(any(String.class))).thenReturn(Mono.just(historia));
 		when(acessarUrlDaMidia.buscarUrlDaMidia("arquivo.mp4")).thenReturn("http://gerar-url-temporaria");
 
 		when(gerarUrlTemporaria
@@ -182,6 +184,20 @@ class HistoriaControllerTest {
 		//Act e Assert
 		webTestClient.delete()
 			.uri("/api/historias/{id}", "123456789")
+			.exchange()
+			.expectStatus()
+			.isOk();
+	}
+
+	@Test
+	void deveAdicionarUmaVisualizacaoNaHistoriaERetornarStatus200() {
+		//Arrange
+		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
+		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
+
+		//Act & Assert
+		webTestClient.delete()
+			.uri("/api/historias/visualizacao/{id}", "123456789")
 			.exchange()
 			.expectStatus()
 			.isOk();

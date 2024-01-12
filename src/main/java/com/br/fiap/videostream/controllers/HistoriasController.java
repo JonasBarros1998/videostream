@@ -29,18 +29,22 @@ public class HistoriasController {
 
 	IDesativarHistorias desativarHistorias;
 
+	IAdicionarVisualizacaoDeUmaHistoria adicionarVisualizacaoDeUmaHistoria;
+
 	@Autowired
 	HistoriasController(
 		ISalvarNovasHistorias salvarNovasHistorias,
 		IConsultarHistorias consultarHistorias,
 		IMarcarHistoriaComoFavorita marcarHistoriaComoFavorita,
 		IAtualizarHistorias atualizarHistorias,
-		IDesativarHistorias desativarHistorias) {
+		IDesativarHistorias desativarHistorias,
+		IAdicionarVisualizacaoDeUmaHistoria adicionarVisualizacaoDeUmaHistoria) {
 		this.salvarNovasHistorias = salvarNovasHistorias;
 		this.consultarHistorias = consultarHistorias;
 		this.marcarHistoriaComoFavorita = marcarHistoriaComoFavorita;
 		this.atualizarHistorias = atualizarHistorias;
 		this.desativarHistorias = desativarHistorias;
+		this.adicionarVisualizacaoDeUmaHistoria = adicionarVisualizacaoDeUmaHistoria;
 	}
 
 	@PostMapping(value = "/historias")
@@ -98,6 +102,12 @@ public class HistoriasController {
 	@DeleteMapping(value = "/historias/{id}")
 	public Mono<ResponseEntity<Void>> desativarHistorias(@PathVariable String id) {
 		return this.desativarHistorias.desativar(id).map(historia -> ResponseEntity.status(200).build());
+	}
+
+	@PostMapping(value = "/historias/visualizacao/{id}")
+	public Mono<ResponseEntity<Void>> adicionarVisualizacao(@PathVariable String id) {
+		return this.adicionarVisualizacaoDeUmaHistoria.adicionarVisualizacao(id)
+			.map(historia -> ResponseEntity.status(200).build());
 	}
 
 }

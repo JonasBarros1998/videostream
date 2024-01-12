@@ -1,13 +1,16 @@
 package com.br.fiap.videostream.casosdeuso;
 
 import com.br.fiap.videostream.domain.AdicionarUmaVisualizacao;
+import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
+import com.br.fiap.videostream.services.IAdicionarVisualizacaoDeUmaHistoria;
+import com.br.fiap.videostream.view.DTO.HistoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class AdicionarVisualizacaoDeUmaHistoria {
+public class AdicionarVisualizacaoDeUmaHistoria implements IAdicionarVisualizacaoDeUmaHistoria {
 
 	private HistoriasRepository historiasRepository;
 
@@ -16,12 +19,17 @@ public class AdicionarVisualizacaoDeUmaHistoria {
 		this.historiasRepository = historiasRepository;
 	}
 
-	public Mono<AdicionarUmaVisualizacao> adicionarVisualizacao(String id) {
+	public Mono<HistoriaDTO> adicionarVisualizacao(String id) {
 		var adicionarVisualizacao = new AdicionarUmaVisualizacao();
-		return this.historiasRepository.findById(id).map(historia -> {
+		var historiaDTO = new HistoriaDTO();
+
+		return this.historiasRepository
+			.findById(id)
+			.flatMap(historia -> {
 			adicionarVisualizacao.adicionar(historia.getVisualizacao());
-			return adicionarVisualizacao;
-		});
+			historia.setVisualizacao(adicionarVisualizacao.getVisualizacao());
+			return this.historiasRepository.save(historia);
+		}).map(historiaDTO::converterHistoriaParaHistoriaDTO);
 	}
 
 }

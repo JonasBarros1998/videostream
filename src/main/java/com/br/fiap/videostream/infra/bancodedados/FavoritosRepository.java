@@ -12,10 +12,10 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface FavoritosRepository extends ReactiveMongoRepository<Favoritos, String> {
 
-	@Query("{}")
+	@Query("{'status':  true}")
 	Flux<Favoritos> findAll(Pageable pageable);
 
-	@Aggregation(value="{ $group: {_id: 0, totalDeHistoriasFavoritadas: {$sum: 1} } }")
+	@Aggregation(value="{ $group: {_id: 0, totalDeHistoriasFavoritadas: {$sum: {$cond: [{$eq: ['$status', true]}, 1, 0]}}}}")
 	Flux<QuantidadeTotalDeHistoriasFavoritadasProjection> obterTodosOsVideosFavoritados();
 
 }
