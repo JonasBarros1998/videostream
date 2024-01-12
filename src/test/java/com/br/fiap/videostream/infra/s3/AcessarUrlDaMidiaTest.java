@@ -24,7 +24,6 @@ class AcessarUrlDaMidiaTest {
 	@BeforeEach
 	void setup() {
 		mock = MockitoAnnotations.openMocks(this);
-		//acessarUrlDaMidia = new AcessarUrlDaMidia();
 	}
 
 

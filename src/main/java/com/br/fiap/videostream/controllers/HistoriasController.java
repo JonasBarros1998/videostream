@@ -1,10 +1,9 @@
 package com.br.fiap.videostream.controllers;
 
-import com.br.fiap.videostream.services.IConsultarHistorias;
-import com.br.fiap.videostream.services.IMarcarHistoriaComoFavorita;
-import com.br.fiap.videostream.services.ISalvarNovasHistorias;
+import com.br.fiap.videostream.services.*;
 import com.br.fiap.videostream.view.DTO.HistoriaDTO;
 import com.br.fiap.videostream.view.forms.AdicionarHistoriaComoFavoritoForm;
+import com.br.fiap.videostream.view.forms.AtualizarHistoriaForm;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,22 @@ public class HistoriasController {
 
 	IMarcarHistoriaComoFavorita marcarHistoriaComoFavorita;
 
+	IAtualizarHistorias atualizarHistorias;
+
+	IDesativarHistorias desativarHistorias;
+
 	@Autowired
 	HistoriasController(
 		ISalvarNovasHistorias salvarNovasHistorias,
 		IConsultarHistorias consultarHistorias,
-		IMarcarHistoriaComoFavorita marcarHistoriaComoFavorita) {
+		IMarcarHistoriaComoFavorita marcarHistoriaComoFavorita,
+		IAtualizarHistorias atualizarHistorias,
+		IDesativarHistorias desativarHistorias) {
 		this.salvarNovasHistorias = salvarNovasHistorias;
 		this.consultarHistorias = consultarHistorias;
 		this.marcarHistoriaComoFavorita = marcarHistoriaComoFavorita;
+		this.atualizarHistorias = atualizarHistorias;
+		this.desativarHistorias = desativarHistorias;
 	}
 
 	@PostMapping(value = "/historias")
@@ -80,6 +87,17 @@ public class HistoriasController {
 			PageRequest.of(paginacao.getPageNumber(), paginacao.getPageSize()),
 			paginacao.getPageSize())
 		);
+	}
+
+	@PutMapping(value = "/historias/{id}")
+	public Mono<ResponseEntity<HistoriaDTO>> atualizarHistoria(@PathVariable String id, @RequestBody AtualizarHistoriaForm atualizarHistoriaForm) {
+		return this.atualizarHistorias.atualizar(id, atualizarHistoriaForm)
+			.map(historia -> ResponseEntity.status(200).body(historia));
+	}
+
+	@DeleteMapping(value = "/historias/{id}")
+	public Mono<ResponseEntity<Void>> desativarHistorias(@PathVariable String id) {
+		return this.desativarHistorias.desativar(id).map(historia -> ResponseEntity.status(200).build());
 	}
 
 }

@@ -15,7 +15,7 @@ public class GerarUrlTemporaria {
 		this.acessarUrlDaMidia = acessarUrlDaMidia;
 	}
 
-	String gerarUrl(HistoriaDTO historiaDTO) {
+	public String gerarUrl(HistoriaDTO historiaDTO) {
 		return this.acessarUrlDaMidia.buscarUrlDaMidia(historiaDTO.getMidia().getDestino());
 	}
 

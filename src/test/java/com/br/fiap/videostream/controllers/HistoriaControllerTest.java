@@ -1,8 +1,7 @@
 package com.br.fiap.videostream.controllers;
 
-import com.br.fiap.videostream.casosdeuso.ConsultarHistorias;
-import com.br.fiap.videostream.casosdeuso.MarcarHistoriaComoFavorita;
-import com.br.fiap.videostream.casosdeuso.SalvarNovasHistorias;
+import com.br.fiap.videostream.VideostreamApplication;
+import com.br.fiap.videostream.casosdeuso.*;
 import com.br.fiap.videostream.domain.entidades.Favoritos;
 import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.domain.entidades.Midia;
@@ -10,16 +9,21 @@ import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
 
+import com.br.fiap.videostream.infra.s3.AcessarUrlDaMidia;
+import com.br.fiap.videostream.view.DTO.HistoriaDTO;
 import com.br.fiap.videostream.view.forms.AdicionarHistoriaComoFavoritoForm;
+import com.br.fiap.videostream.view.forms.AtualizarHistoriaForm;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -33,7 +37,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @ActiveProfiles(value = "test")
 @AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest(classes = VideostreamApplication.class)
 class HistoriaControllerTest {
 
 	@Mock
@@ -45,6 +49,9 @@ class HistoriaControllerTest {
 	@Mock
 	private MarcarHistoriaComoFavorita marcarHistoriaComoFavorita;
 
+	@MockBean
+	AcessarUrlDaMidia acessarUrlDaMidia;
+
 	@InjectMocks
 	private ConsultarHistorias consultarHistorias;
 
@@ -52,24 +59,41 @@ class HistoriaControllerTest {
 	private SalvarNovasHistorias salvarNovasHistorias;
 
 	@InjectMocks
+	private AtualizarHistorias atualizarHistorias;
+
+	@InjectMocks
+	private DesativarHistorias desativarHistorias;
+
+
+	@InjectMocks
+	private GerarUrlTemporaria gerarUrlTemporaria;
+
+	@InjectMocks
 	private HistoriasController historiasController;
 
 	private WebTestClient webTestClient;
+
+	private Historia historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(), 10);
 
 	@BeforeEach
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		salvarNovasHistorias = new SalvarNovasHistorias(historiasRepository);
 		marcarHistoriaComoFavorita = new MarcarHistoriaComoFavorita(favoritosRepository, historiasRepository);
-		historiasController = new HistoriasController(salvarNovasHistorias, consultarHistorias, marcarHistoriaComoFavorita);
+		consultarHistorias = new ConsultarHistorias(historiasRepository, favoritosRepository, gerarUrlTemporaria);
+		historiasController = new HistoriasController(
+			salvarNovasHistorias,
+			consultarHistorias,
+			marcarHistoriaComoFavorita,
+			atualizarHistorias,
+			desativarHistorias);
 		this.webTestClient = WebTestClient.bindToController(historiasController).build();
 	}
 
 	@Test
 	void deveCriarHistorias() {
 		//Arrange
-		HistoriaForm requestBody = new HistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
-		var historia = new Historia(requestBody.titulo(), requestBody.descricao(), requestBody.categoria(), new Midia(), 0);
+		HistoriaForm requestBody = new HistoriaForm(this.historia.getTitulo(), this.historia.getDescricao(), this.historia.getCategorias());
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
 
 		//Act & Assert
@@ -83,19 +107,21 @@ class HistoriaControllerTest {
 	}
 
 	@Test
-	void quandoConsultarPorTituloDeveRetornarUmaHistoria() {
+	void quandoConsultarPorTituloDeveRetornarUmaHistoriaEStatus200() {
 		//Arrange
-		HistoriaForm requestBody = new HistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
-		var historia = new Historia(requestBody.titulo(), requestBody.descricao(), requestBody.categoria(), new Midia(), 0);
-
 		when(historiasRepository.findByTitulo(any(String.class))).thenReturn(Mono.just(historia));
+		when(acessarUrlDaMidia.buscarUrlDaMidia("arquivo.mp4")).thenReturn("http://gerar-url-temporaria");
+
+		when(gerarUrlTemporaria
+			.gerarUrl(new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia)))
+			.thenReturn("http://gerar-url-temporaria");
 
 		//Act & Assert
 		webTestClient.get()
 			.uri(uriBuilder ->
 				uriBuilder
 					.path("/api/historias")
-					.queryParam("titulo", "Toda a luz que nao podemos ver")
+					.queryParam("titulo", historia.getTitulo())
 					.build())
 			.accept(MediaType.APPLICATION_JSON)
 			.exchange()
@@ -103,14 +129,12 @@ class HistoriaControllerTest {
 			.isOk();
 	}
 
-
 	@Test
-	void deveRetornarStatus200AoAdicionarHisotriaComoFavorita() {
+	void AdicionarHistoriaComoFavoritaDeveRetornarStatus201() {
 		//Arrange
 		var midiaID = "123456789";
 
 		var adicionarHistoriaComoFavoritoForm = new AdicionarHistoriaComoFavoritoForm("");
-		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
 
 		var favoritos = new Favoritos(midiaID);
 		favoritos.addHistorias(historia);
@@ -127,7 +151,40 @@ class HistoriaControllerTest {
 			.exchange()
 			.expectStatus()
 			.isCreated();
+	}
 
+	@Test
+	void aoAtualizarUmaHistoriaDeveRetornarstatus200() {
+		//Arrange
+		var atualizarHistoriaForm = new AtualizarHistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
+
+		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
+		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
+
+		//Act & Assert
+		webTestClient.put()
+			.uri("/api/historias/{id}", "123456789")
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.bodyValue(atualizarHistoriaForm)
+			.exchange()
+			.expectStatus()
+			.isOk();
+	}
+
+
+	@Test
+	void deveDesativarHistoriasERetornarStatus204() {
+		//Arrange
+		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
+		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
+
+		//Act e Assert
+		webTestClient.delete()
+			.uri("/api/historias/{id}", "123456789")
+			.exchange()
+			.expectStatus()
+			.isOk();
 	}
 
 }

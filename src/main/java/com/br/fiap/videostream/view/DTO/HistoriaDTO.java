@@ -5,12 +5,15 @@ import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HistoriaDTO implements IHistoriaDTO {
 
 	private HistoriaForm historiaForm;
+
 	private String titulo;
 	private String descricao;
 	private String id;
@@ -78,12 +81,25 @@ public class HistoriaDTO implements IHistoriaDTO {
 		return midia;
 	}
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	public String getUrlDaMidia() {
 		return urlDaMidia;
 	}
 
 	public void setUrlDaMidia(String urlDaMidia) {
 		this.urlDaMidia = urlDaMidia;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 }

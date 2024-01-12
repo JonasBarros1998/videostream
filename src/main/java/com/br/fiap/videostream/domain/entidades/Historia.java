@@ -24,6 +24,8 @@ public class Historia {
 
 	private Midia midia;
 
+	private Boolean status = Boolean.TRUE;
+
 	public Historia(String titulo, String descricao, Categoria categorias,  Midia midia, Integer visualizacao) {
 		this.titulo = titulo;
 		this.descricao = descricao;
@@ -58,6 +60,26 @@ public class Historia {
 
 	public Midia getMidia() {
 		return midia;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setCategorias(Categoria categorias) {
+		this.categorias = categorias;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 
 }

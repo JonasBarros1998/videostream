@@ -39,7 +39,7 @@ class ConsultarHistoriasTest {
 
 	AutoCloseable mock;
 
-	Historia historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
+	final Historia historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
 
 	@BeforeEach
 	void setup() {
