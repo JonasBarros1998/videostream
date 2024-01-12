@@ -2,10 +2,10 @@ package com.br.fiap.videostream.domain.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Midia {
 
@@ -44,7 +44,9 @@ public class Midia {
 	}
 
 	public String criarDestino() {
-		this.destino = "%s/%s.mp4".formatted(LocalDateTime.now().toString(), this.nomeDaMidia);
+		DateTimeFormatter dataEHoraFormatada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss");
+		var dataEHora = LocalDateTime.now().format(dataEHoraFormatada).toString();
+		this.destino = "%s/%s.m3u8".formatted(dataEHora, this.nomeDaMidia);
 		return this.destino;
 	}
 }

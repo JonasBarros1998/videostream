@@ -29,6 +29,9 @@ class ConsultarHistoriasTest {
 	private HistoriasRepository historiasRepository;
 
 	@Mock
+	private GerarUrlTemporaria gerarUrlTemporaria;
+
+	@Mock
 	private FavoritosRepository favoritosRepository;
 
 	@InjectMocks
@@ -41,7 +44,7 @@ class ConsultarHistoriasTest {
 	@BeforeEach
 	void setup() {
 		mock = MockitoAnnotations.openMocks(this);
-		consultarHistorias = new ConsultarHistorias(historiasRepository, favoritosRepository);
+		consultarHistorias = new ConsultarHistorias(historiasRepository, favoritosRepository, gerarUrlTemporaria);
 	}
 
 	@Test

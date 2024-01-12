@@ -1,11 +1,10 @@
 package com.br.fiap.videostream.adapters.armazenamento;
 
-import com.br.fiap.videostream.domain.entidades.Midia;
 import software.amazon.awssdk.transfer.s3.model.Upload;
+
+import java.io.InputStream;
 
 public interface ArmazenamentoService {
 
-	Upload enviarArquivo(Midia midia);
-
-	String jonas();
+	Upload enviarArquivo(InputStream arquivo, String localizacao);
 }

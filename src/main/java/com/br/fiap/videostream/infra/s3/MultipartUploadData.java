@@ -17,7 +17,7 @@ import java.io.InputStream;
 @Component
 public class MultipartUploadData implements ArmazenamentoService {
 
-	private S3TransferManager s3TransferManager;
+	private final S3TransferManager s3TransferManager;
 
 	@Value("${aplicacao.s3.buckets.videos-nao-processados}")
 	private String bucket;
@@ -27,12 +27,12 @@ public class MultipartUploadData implements ArmazenamentoService {
 		this.s3TransferManager = s3TransferManager;
 	}
 
-	public Upload enviarArquivo(Midia midia) {
+	public Upload enviarArquivo(InputStream arquivo, String localizacao) {
 
 		var uploadRequestBody = UploadRequest
 			.builder()
-			.requestBody(adicionarArquivoNaRequisicao(midia.getMidia()))
-			.putObjectRequest(prepararRequisicao(midia.criarDestino()))
+			.requestBody(adicionarArquivoNaRequisicao(arquivo))
+			.putObjectRequest(prepararRequisicao(localizacao))
 			.build();
 
 		return this.s3TransferManager.upload(uploadRequestBody);
@@ -53,13 +53,5 @@ public class MultipartUploadData implements ArmazenamentoService {
 		} catch (IOException ex) {
 			throw new RuntimeException("Houve um erro ao ler a midia");
 		}
-
 	}
-
-	@Override
-	public String jonas() {
-		return "OK chamada";
-	}
-
-
 }

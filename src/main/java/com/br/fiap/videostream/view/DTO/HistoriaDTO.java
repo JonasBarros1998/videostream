@@ -17,6 +17,7 @@ public class HistoriaDTO implements IHistoriaDTO {
 	private Categoria categoria;
 
 	private Midia midia;
+	private String urlDaMidia;
 
 	public HistoriaDTO(){}
 
@@ -55,14 +56,6 @@ public class HistoriaDTO implements IHistoriaDTO {
 		this.categoria = historia.getCategorias();
 		this.midia = historia.getMidia();
 		return this;
-		
-		/*
-		return new HistoriaDTO(
-			historia.getTitulo(),
-			historia.getDescricao(),
-			historia.getCategorias(),
-			historia.getId()
-		);*/
 	}
 
 	public String getTitulo() {
@@ -84,4 +77,13 @@ public class HistoriaDTO implements IHistoriaDTO {
 	public Midia getMidia() {
 		return midia;
 	}
+
+	public String getUrlDaMidia() {
+		return urlDaMidia;
+	}
+
+	public void setUrlDaMidia(String urlDaMidia) {
+		this.urlDaMidia = urlDaMidia;
+	}
+
 }

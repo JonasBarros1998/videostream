@@ -3,6 +3,7 @@ package com.br.fiap.videostream.infra.s3;
 import com.br.fiap.videostream.domain.entidades.Midia;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
@@ -19,6 +20,7 @@ import java.io.FileNotFoundException;
 @SpringBootTest
 class MultipartUploadDataTest {
 
+	@InjectMocks
 	MultipartUploadData multipartUploadData;
 
 	@Mock
@@ -42,7 +44,7 @@ class MultipartUploadDataTest {
 		midia.setNomeDaMidia("ArquivoDeTeste.txt");
 
 		//Act
-		this.multipartUploadData.enviarArquivo(midia);
+		this.multipartUploadData.enviarArquivo(midia.getMidia(), midia.getDestino());
 
 		//Assert
 		verify(s3TransferManager, times(1)).upload(any(UploadRequest.class));

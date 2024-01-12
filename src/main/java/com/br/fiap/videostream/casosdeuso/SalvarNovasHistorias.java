@@ -24,9 +24,7 @@ public class SalvarNovasHistorias implements ISalvarNovasHistorias {
 		var historiaDTO = new HistoriaDTO(historiasForm).converterHistoriaFormParaHistoriaDTO();
 		Integer visualizacao = 0;
 		var midia = new Midia();
-		midia.setNomeDaMidia(historiaDTO.getTitulo()
-			.replace(" ", "_")
-			.replace(",", ""));
+		midia.setNomeDaMidia(historiaDTO.getTitulo());
 
 		midia.criarDestino();
 
