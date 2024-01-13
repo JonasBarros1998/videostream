@@ -1,5 +1,6 @@
 package com.br.fiap.videostream.domain.entidades;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,13 +10,13 @@ public class Favoritos {
 	@Id
 	private String id;
 
-	private String historiaId;
+	private ObjectId historiaId;
 
-	public Favoritos(String historiaId) {
+	public Favoritos(ObjectId historiaId) {
 		this.historiaId = historiaId;
 	}
 
-	public String getHistoriaId() {
+	public ObjectId getHistoriaId() {
 		return historiaId;
 	}
 

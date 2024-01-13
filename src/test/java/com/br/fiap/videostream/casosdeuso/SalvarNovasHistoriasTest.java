@@ -17,6 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
@@ -40,7 +42,7 @@ class SalvarNovasHistoriasTest {
 	@Test
 	void deveSalvarNovasHistorias() {
 		//Arrange
-		var historiasForm = new HistoriaForm("um titulo", "uma Descricao", Categoria.ACAO);
+		var historiasForm = new HistoriaForm("um titulo", "uma Descricao", Arrays.asList(Categoria.ACAO));
 		var historiaDTO = new HistoriaDTO(historiasForm).converterHistoriaFormParaHistoriaDTO();
 
 		var historia = new Historia(

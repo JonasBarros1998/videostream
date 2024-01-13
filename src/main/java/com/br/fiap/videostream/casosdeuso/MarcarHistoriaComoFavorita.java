@@ -7,6 +7,7 @@ import com.br.fiap.videostream.services.IMarcarHistoriaComoFavorita;
 import com.br.fiap.videostream.view.DTO.FavoritosDTO;
 import com.br.fiap.videostream.view.DTO.HistoriaDTO;
 import com.br.fiap.videostream.view.forms.AdicionarHistoriaComoFavoritoForm;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -25,11 +26,11 @@ public class MarcarHistoriaComoFavorita implements IMarcarHistoriaComoFavorita {
 	}
 
 	public Mono<FavoritosDTO> adicionar(AdicionarHistoriaComoFavoritoForm favoritoForm) {
-		var favoritos = new Favoritos(favoritoForm.id());
+		var favoritos = new Favoritos(new ObjectId(favoritoForm.id()));
 		var favoritosDTO = new FavoritosDTO();
 
 		return this.historiasRepository
-			.findById(favoritos.getHistoriaId())
+			.findById(favoritos.getHistoriaId().toString())
 			.flatMap(historia -> this.favoritosRepository.save(favoritos))
 			.map(favoritosDTO::converterFavoritosParaFavoritosDTO);
 	}

@@ -31,4 +31,6 @@ public enum Categoria {
 		return categoria;
 	}
 
+
+
 }

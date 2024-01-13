@@ -16,7 +16,7 @@ public class FavoritosDTO {
 	public FavoritosDTO() {}
 
 	public FavoritosDTO converterFavoritosParaFavoritosDTO(Favoritos favoritos) {
-		return new FavoritosDTO(favoritos.getId(), favoritos.getHistoriaId());
+		return new FavoritosDTO(favoritos.getId(), favoritos.getHistoriaId().toString());
 	}
 
 	public String getId() {

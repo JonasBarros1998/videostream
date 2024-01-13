@@ -15,6 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
@@ -39,9 +41,9 @@ class AtualizarHistoriasTest {
 
 		//Arrange
 		var historiaID = "123456789";
-		var atualizarHistoriaForm = new AtualizarHistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
+		var atualizarHistoriaForm = new AtualizarHistoriaForm("Um titulo", "Uma descricao", Arrays.asList(Categoria.ACAO));
 
-		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
+		var historia = new Historia("Um titulo", "Uma descricao", Arrays.asList(Categoria.TERROR), new Midia(),10);
 		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
 
