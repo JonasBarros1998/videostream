@@ -51,7 +51,7 @@ class AtualizarHistoriasTest {
 			.expectNextMatches(verificar -> {
 				var tituloEstaAtualizado = verificar.getTitulo().equals(historia.getTitulo());
 				var descricaoEstaAtualizada = verificar.getDescricao().equals(historia.getDescricao());
-				var categoriaEstaAtualizada = verificar.getCategoria().equals(historia.getCategorias());
+				var categoriaEstaAtualizada = verificar.getCategorias().equals(historia.getCategorias());
 
 				return tituloEstaAtualizado & descricaoEstaAtualizada & categoriaEstaAtualizada;
 			})

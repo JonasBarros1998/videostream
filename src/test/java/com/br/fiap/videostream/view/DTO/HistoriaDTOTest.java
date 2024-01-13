@@ -6,6 +6,9 @@ import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HistoriaDTOTest {
@@ -16,7 +19,7 @@ class HistoriaDTOTest {
 		var historiaForm = new HistoriaForm(
 			"Minha nova serie",
 			"serie de verão",
-			Categoria.ACAO
+			Arrays.asList(Categoria.ACAO)
 		);
 
 		var historiaDTO = new HistoriaDTO(historiaForm);
@@ -36,7 +39,7 @@ class HistoriaDTOTest {
 		var midia = new Midia();
 		midia.criarDestino();
 		midia.setNomeDaMidia("Uma serie");
-		var historia = new Historia("Uma serie", "Uma descricao", Categoria.FICCAO, midia,20);
+		var historia = new Historia("Uma serie", "Uma descricao", Arrays.asList(Categoria.FICCAO), midia,20);
 
 		//Act
 		HistoriaDTO historiaDTO = new HistoriaDTO().converterHistoriaParaHistoriaDTO(historia);
@@ -45,14 +48,14 @@ class HistoriaDTOTest {
 		assertThat(historiaDTO).isInstanceOf(HistoriaDTO.class);
 		assertThat(historiaDTO.getTitulo()).isEqualTo("Uma serie");
 		assertThat(historiaDTO.getDescricao()).isEqualTo("Uma descricao");
-		assertThat(historiaDTO.getCategoria()).isEqualTo(Categoria.FICCAO);
+		assertThat(historiaDTO.getCategorias()).isEqualTo(Categoria.FICCAO);
 		assertThat(historiaDTO.getMidia().getNomeDaMidia()).isEqualTo("Uma serie");
 	}
 
 	@Test
 	void deveCriarUmaInstanciaDeHistoriaDTO() {
 		//Act
-		var historiaDTO = new HistoriaDTO("Um titulo", "Uma descricao", Categoria.TERROR, "123456789");
+		var historiaDTO = new HistoriaDTO("Um titulo", "Uma descricao", Arrays.asList(Categoria.TERROR), "123456789");
 
 		//Assert
 		assertThat(historiaDTO).isInstanceOf(HistoriaDTO.class);

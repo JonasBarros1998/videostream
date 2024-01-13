@@ -32,7 +32,7 @@ public class SalvarNovasHistorias implements ISalvarNovasHistorias {
 			.save(new Historia(
 				historiaDTO.getTitulo(),
 				historiaDTO.getDescricao(),
-				historiaDTO.getCategoria(),
+				historiaDTO.getCategorias(),
 				midia,
 				visualizacao))
 			.map(item -> historiaDTO);

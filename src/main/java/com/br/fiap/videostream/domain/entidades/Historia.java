@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document
 public class Historia {
@@ -18,7 +19,7 @@ public class Historia {
 
 	private LocalDateTime dataDePublicacao = LocalDateTime.now();
 
-	private Categoria categorias;
+	private List<Categoria> categorias;
 
 	private Integer visualizacao;
 
@@ -26,7 +27,7 @@ public class Historia {
 
 	private Boolean status = Boolean.TRUE;
 
-	public Historia(String titulo, String descricao, Categoria categorias,  Midia midia, Integer visualizacao) {
+	public Historia(String titulo, String descricao, List<Categoria> categorias,  Midia midia, Integer visualizacao) {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.categorias = categorias;
@@ -50,7 +51,7 @@ public class Historia {
 		return id;
 	}
 
-	public Categoria getCategorias() {
+	public List<Categoria> getCategorias() {
 		return categorias;
 	}
 
@@ -70,7 +71,7 @@ public class Historia {
 		this.descricao = descricao;
 	}
 
-	public void setCategorias(Categoria categorias) {
+	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
 	}
 

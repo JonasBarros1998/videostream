@@ -1,6 +1,7 @@
 package com.br.fiap.videostream.controllers;
 
 import com.br.fiap.videostream.services.*;
+import com.br.fiap.videostream.view.DTO.FavoritosDTO;
 import com.br.fiap.videostream.view.DTO.HistoriaDTO;
 import com.br.fiap.videostream.view.forms.AdicionarHistoriaComoFavoritoForm;
 import com.br.fiap.videostream.view.forms.AtualizarHistoriaForm;
@@ -79,7 +80,7 @@ public class HistoriasController {
 	}
 
 	@PostMapping(value = "/historias/favoritos")
-	public Mono<ResponseEntity<HistoriaDTO>> adicionarHistoriaComoFavorita(@Valid @RequestBody AdicionarHistoriaComoFavoritoForm favoritoForm) {
+	public Mono<ResponseEntity<FavoritosDTO>> adicionarHistoriaComoFavorita(@Valid @RequestBody AdicionarHistoriaComoFavoritoForm favoritoForm) {
 		return this.marcarHistoriaComoFavorita.adicionar(favoritoForm).map(item -> ResponseEntity.status(201).body(item));
 	}
 

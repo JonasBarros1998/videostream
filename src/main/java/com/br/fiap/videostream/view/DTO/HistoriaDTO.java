@@ -5,9 +5,10 @@ import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class HistoriaDTO implements IHistoriaDTO {
@@ -17,25 +18,25 @@ public class HistoriaDTO implements IHistoriaDTO {
 	private String titulo;
 	private String descricao;
 	private String id;
-	private Categoria categoria;
+	private List<Categoria> categorias;
 
 	private Midia midia;
 	private String urlDaMidia;
 
 	public HistoriaDTO(){}
 
-	HistoriaDTO(String titulo, String descricao, Categoria categoria, Midia midia) {
+	HistoriaDTO(String titulo, String descricao, List<Categoria> categorias, Midia midia) {
 		this.titulo = titulo;
 		this.descricao = descricao;
-		this.categoria = categoria;
+		this.categorias = categorias;
 		this.midia = midia;
 	}
 
-	HistoriaDTO(String titulo, String descricao, Categoria categoria, String id) {
+	HistoriaDTO(String titulo, String descricao, List<Categoria> categorias, String id) {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.id = id;
-		this.categoria = categoria;
+		this.categorias = categorias;
 	}
 
 	public HistoriaDTO(HistoriaForm historiaForm) {
@@ -47,7 +48,7 @@ public class HistoriaDTO implements IHistoriaDTO {
 		return new HistoriaDTO(
 			this.historiaForm.titulo(),
 			this.historiaForm.descricao(),
-			this.historiaForm.categoria(),
+			this.historiaForm.categorias(),
 			this.midia
 		);
 	}
@@ -56,7 +57,7 @@ public class HistoriaDTO implements IHistoriaDTO {
 		this.titulo = historia.getTitulo();
 		this.descricao = historia.getDescricao();
 		this.id = historia.getId();
-		this.categoria = historia.getCategorias();
+		this.categorias = historia.getCategorias();
 		this.midia = historia.getMidia();
 		return this;
 	}
@@ -73,8 +74,8 @@ public class HistoriaDTO implements IHistoriaDTO {
 		return id;
 	}
 
-	public Categoria getCategoria() {
-		return categoria;
+	public List<Categoria> getCategorias() {
+		return categorias;
 	}
 
 	public Midia getMidia() {
@@ -98,8 +99,8 @@ public class HistoriaDTO implements IHistoriaDTO {
 		this.descricao = descricao;
 	}
 
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 
 }

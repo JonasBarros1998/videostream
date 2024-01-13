@@ -46,7 +46,7 @@ class SalvarNovasHistoriasTest {
 		var historia = new Historia(
 			historiaDTO.getTitulo(),
 			historiaDTO.getDescricao(),
-			historiaDTO.getCategoria(),
+			historiaDTO.getCategorias(),
 			new Midia(),
 			0);
 
@@ -58,7 +58,7 @@ class SalvarNovasHistoriasTest {
 			.expectNextMatches(verificar -> {
 				var DescricaoEhDiferenteDeNull = verificar.getDescricao() != null;
 				var tituloEhDiferenteDeNull = verificar.getTitulo() != null;
-				var categoriaEhDiferenteDeNull = verificar.getCategoria() != null;
+				var categoriaEhDiferenteDeNull = verificar.getCategorias() != null;
 				return DescricaoEhDiferenteDeNull && tituloEhDiferenteDeNull && categoriaEhDiferenteDeNull;
 			})
 			.expectComplete()

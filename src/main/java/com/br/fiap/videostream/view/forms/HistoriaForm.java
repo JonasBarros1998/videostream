@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 public record HistoriaForm(
 
 	@NotEmpty(message = "campo titulo e obrigatorio")
@@ -15,6 +17,6 @@ public record HistoriaForm(
 
 	@NotNull(message="o campo categoria e obrigatorio")
 	@Valid
-	Categoria categoria
+	List<Categoria> categorias
 ) {
 }
