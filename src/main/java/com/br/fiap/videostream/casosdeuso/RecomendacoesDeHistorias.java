@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,7 +23,6 @@ public class RecomendacoesDeHistorias {
 	RecomendacoesDeHistorias(RecomendacaoRepository recomendacoesRepository, FavoritosRepository favoritosRepository) {
 		this.recomendacoesRepository = recomendacoesRepository;
 		this.favoritosRepository = favoritosRepository;
-
 	}
 
 	public Flux<HistoriaDTO> buscarRecomendacoes() {
@@ -39,13 +37,7 @@ public class RecomendacoesDeHistorias {
 	}
 
 	private List<String> criarJsonDeCaegorias(List<Categoria> categorias) {
-		String tiposDeCategoria;
-
 		return categorias.stream().map(Categoria::getCode).toList();
-
-		//var item = String.join(",", formatarItensDoArray);
-		//System.out.println("item >>> " + item);
-		//return item;
 	}
 }
 

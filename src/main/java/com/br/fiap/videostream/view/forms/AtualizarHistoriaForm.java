@@ -17,6 +17,6 @@ public record AtualizarHistoriaForm(
 
 	@NotNull(message="o campo categoria e obrigatorio")
 	@Valid
-	List<Categoria> categoria
+	List<Categoria> categorias
 ) {
 }

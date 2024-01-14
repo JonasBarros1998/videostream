@@ -69,16 +69,6 @@ public class HistoriasController {
 			.map(item -> ResponseEntity.status(200).body(item));
 	}
 
-	@GetMapping(value = "/historias/favoritos")
-	public Mono<Page<List<HistoriaDTO>>> buscarPorFavoritos(Pageable paginacao) {
-		return this.consultarHistorias.consultarPorFavoritos(paginacao)
-			.mapNotNull(items -> new PageImpl(
-				items,
-				PageRequest.of(paginacao.getPageNumber(), paginacao.getPageSize()),
-				paginacao.getPageSize())
-			);
-	}
-
 	@PostMapping(value = "/historias/favoritos")
 	public Mono<ResponseEntity<FavoritosDTO>> adicionarHistoriaComoFavorita(@Valid @RequestBody AdicionarHistoriaComoFavoritoForm favoritoForm) {
 		return this.marcarHistoriaComoFavorita.adicionar(favoritoForm).map(item -> ResponseEntity.status(201).body(item));

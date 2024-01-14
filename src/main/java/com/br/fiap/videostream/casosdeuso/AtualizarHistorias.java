@@ -22,7 +22,7 @@ public class AtualizarHistorias implements IAtualizarHistorias {
 
 		return this.historiasRepository.findById(idHistoria).flatMap(historia -> {
 
-			historia.setCategorias(atualizarHistoriaForm.categoria());
+			historia.setCategorias(atualizarHistoriaForm.categorias());
 			historia.setTitulo(atualizarHistoriaForm.titulo());
 			historia.setDescricao(atualizarHistoriaForm.descricao());
 

@@ -14,7 +14,6 @@ import java.util.List;
 public class PaginacaoHandler implements HandlerMethodArgumentResolver {
 
 	private static final String pagina = "0";
-	private static final String tamanho = "1";
 	private static final Integer tamanhoMaximo = 50;
 
 	@Override
@@ -23,7 +22,7 @@ public class PaginacaoHandler implements HandlerMethodArgumentResolver {
 	}
 
 	@Override
-	public Mono<Object> resolveArgument(MethodParameter methodParameter, BindingContext bindingContext, ServerWebExchange capturarRequisicao) {
+	public Mono<Object> resolveArgument(MethodParameter parametro, BindingContext contexto, ServerWebExchange capturarRequisicao) {
 
 		List<String> paginas = capturarRequisicao
 			.getRequest()

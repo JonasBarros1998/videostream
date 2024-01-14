@@ -39,10 +39,6 @@ public class Midia {
 		this.nomeDaMidia = nomeDaMidia.replace(" ", "-");
 	}
 
-	public void setDestino(String destino) {
-		this.destino = destino;
-	}
-
 	public String criarDestino() {
 		DateTimeFormatter dataEHoraFormatada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss");
 		var dataEHora = LocalDateTime.now().format(dataEHoraFormatada).toString();
