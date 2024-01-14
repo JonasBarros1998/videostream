@@ -14,11 +14,13 @@ import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class DesativarHistoriasTest {
+public class DesativarHistoriasTest {
 
 	AutoCloseable mock;
 
@@ -28,7 +30,7 @@ class DesativarHistoriasTest {
 	@Mock
 	HistoriasRepository historiasRepository;
 
-	final Historia historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
+	final Historia historia = new Historia("Um titulo", "Uma descricao", Arrays.asList(Categoria.TERROR), new Midia(),10);
 
 	@BeforeEach
 	void setup() {
@@ -37,7 +39,7 @@ class DesativarHistoriasTest {
 	}
 
 	@Test
-	void deveDesativarUmaHistoria() {
+	public void deveDesativarUmaHistoria() {
 
 		//Arrange
 		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));

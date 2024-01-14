@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class EnviarMensagemParaIniciarPipelineTest {
+public class EnviarMensagemParaIniciarPipelineTest {
 
 	EnviarMensagemParaIniciarPipeline enviarMensagemParaIniciarPipeline;
 
@@ -40,7 +40,7 @@ class EnviarMensagemParaIniciarPipelineTest {
 	}
 
 	@Test
-	void deveEnviarAMensagemParaAFilaDeMensagensDoSqs() throws FileNotFoundException, JsonProcessingException {
+	public void deveEnviarAMensagemParaAFilaDeMensagensDoSqs() throws FileNotFoundException, JsonProcessingException {
 		//Arrange
 		var midia = new Midia();
 		midia.setNomeDaMidia("ArquivoDeTeste.txt");

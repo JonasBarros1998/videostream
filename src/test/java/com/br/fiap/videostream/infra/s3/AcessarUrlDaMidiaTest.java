@@ -12,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class AcessarUrlDaMidiaTest {
+public class AcessarUrlDaMidiaTest {
 
 	@Autowired
 	AcessarUrlDaMidia acessarUrlDaMidia;
@@ -28,7 +31,7 @@ class AcessarUrlDaMidiaTest {
 
 
 	@Test
-	void deveBuscarUrlDoArquivo() {
+	public void deveBuscarUrlDoArquivo() {
 
 		//Arrange
 		var midia = new Midia();
@@ -38,7 +41,7 @@ class AcessarUrlDaMidiaTest {
 		var historia = new Historia(
 			"Um titulo",
 			"Uma descricao",
-			Categoria.ANIMACAO,
+			Arrays.asList(Categoria.ANIMACAO),
 			midia,
 			10);
 

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class SalvarNovasHistoriasTest {
+public class SalvarNovasHistoriasTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -40,7 +40,7 @@ class SalvarNovasHistoriasTest {
 	}
 
 	@Test
-	void deveSalvarNovasHistorias() {
+	public void deveSalvarNovasHistorias() {
 		//Arrange
 		var historiasForm = new HistoriaForm("um titulo", "uma Descricao", Arrays.asList(Categoria.ACAO));
 		var historiaDTO = new HistoriaDTO(historiasForm).converterHistoriaFormParaHistoriaDTO();

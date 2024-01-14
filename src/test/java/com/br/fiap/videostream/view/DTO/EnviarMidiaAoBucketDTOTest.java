@@ -22,7 +22,7 @@ import java.io.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class EnviarMidiaAoBucketDTOTest {
+public class EnviarMidiaAoBucketDTOTest {
 
 	AutoCloseable mock;
 
@@ -39,12 +39,12 @@ class EnviarMidiaAoBucketDTOTest {
 	EnviarMidiaAoBucketDTOTest() throws FileNotFoundException {}
 
 	@BeforeEach
-	void setup() {
+	public void setup() {
 		mock = MockitoAnnotations.openMocks(this);
 	}
 
 	@Test
-	void deveConverterDeUploadDeMidaFormParaUploadDeMidiaDTO() {
+	public void deveConverterDeUploadDeMidaFormParaUploadDeMidiaDTO() {
 		//Arrange
 		when(filePart.content())
 			.thenReturn(DataBufferUtils
@@ -61,7 +61,7 @@ class EnviarMidiaAoBucketDTOTest {
 	}
 
 	@Test
-	void deveRetornarUmaInstanciaDeInputStream() {
+	public void deveRetornarUmaInstanciaDeInputStream() {
 		//Arrange
 		when(filePart.content()).thenReturn(Flux.just(dataBuffer));
 		var upload = new UploadDeMidiaForm(Mono.just(filePart));

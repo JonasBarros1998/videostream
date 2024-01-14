@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class MultipartUploadDataTest {
+public class MultipartUploadDataTest {
 
 	@InjectMocks
 	MultipartUploadData multipartUploadData;
@@ -35,7 +35,7 @@ class MultipartUploadDataTest {
 	}
 
 	@Test
-	void deveFazerOUploadDeUmaMidiaNoS3() throws FileNotFoundException {
+	public void deveFazerOUploadDeUmaMidiaNoS3() throws FileNotFoundException {
 		//Arrange
 		var arquivo = new FileInputStream("src/test/resources/ArquivoDeTeste.txt");
 		when(s3TransferManager.upload(any(UploadRequest.class))).thenReturn(any(Upload.class));

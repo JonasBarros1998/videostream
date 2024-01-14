@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class AtualizarHistoriasTest {
+public class AtualizarHistoriasTest {
 
 	AutoCloseable mock;
 
@@ -37,7 +37,7 @@ class AtualizarHistoriasTest {
 	}
 
 	@Test
-	void deveAtualizarUmaHistoria() {
+	public void deveAtualizarUmaHistoria() {
 
 		//Arrange
 		var historiaID = "123456789";

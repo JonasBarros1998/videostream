@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class AdicionarUmaVisualizacaoTest {
 
 	@Test
-	void deveAdicionarUmaNovaVisualizacaEmUmaMidia() {
+	public void deveAdicionarUmaNovaVisualizacaEmUmaMidia() {
 		//Arrange
 		var adicionarVisualizacao = new AdicionarUmaVisualizacao();
 

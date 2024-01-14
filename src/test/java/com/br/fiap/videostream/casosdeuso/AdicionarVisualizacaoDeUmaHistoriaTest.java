@@ -14,13 +14,14 @@ import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class AdicionarVisualizacaoDeUmaHistoriaTest {
+public class AdicionarVisualizacaoDeUmaHistoriaTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -30,6 +31,8 @@ class AdicionarVisualizacaoDeUmaHistoriaTest {
 
 	AutoCloseable mock;
 
+	private final Historia historia = new Historia("Uma serie", "Uma descricao", Arrays.asList(Categoria.FICCAO), new Midia(),20);
+
 	@BeforeEach
 	void setup() {
 		mock = MockitoAnnotations.openMocks(this);
@@ -37,11 +40,12 @@ class AdicionarVisualizacaoDeUmaHistoriaTest {
 	}
 
 	@Test
-	void deveAdicionarUmaNovaVisualizacaoEmUmaMidia() {
+	public void deveAdicionarUmaNovaVisualizacaoEmUmaMidia() {
 		//Arrange
 		var id = UUID.randomUUID().toString();
 		when(historiasRepository.findById(id))
-			.thenReturn(Mono.just(new Historia("Uma serie", "Uma descricao", Categoria.FICCAO, new Midia(),20)));
+			.thenReturn(Mono.just(historia));
+		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
 
 		//Act & Assert
 		StepVerifier

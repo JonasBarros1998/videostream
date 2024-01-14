@@ -85,7 +85,9 @@ public class HistoriasController {
 	}
 
 	@GetMapping(value = "/historias", params = {"categoria"})
-	public Mono<Page<List<HistoriaDTO>>> buscarPorCategorias(@RequestParam(name="categoria") String categoria, Pageable paginacao) {
+	public Mono<Page<List<HistoriaDTO>>> buscarPorCategorias(
+		@RequestParam(name="categoria") String categoria,
+		Pageable paginacao) {
 		return this.consultarHistorias.consultarPorCategorias(categoria, paginacao)
 			.mapNotNull(items -> new PageImpl(
 			items,
@@ -95,7 +97,9 @@ public class HistoriasController {
 	}
 
 	@PutMapping(value = "/historias/{id}")
-	public Mono<ResponseEntity<HistoriaDTO>> atualizarHistoria(@PathVariable String id, @RequestBody AtualizarHistoriaForm atualizarHistoriaForm) {
+	public Mono<ResponseEntity<HistoriaDTO>> atualizarHistoria(
+		@PathVariable String id,
+		@RequestBody AtualizarHistoriaForm atualizarHistoriaForm) {
 		return this.atualizarHistorias.atualizar(id, atualizarHistoriaForm)
 			.map(historia -> ResponseEntity.status(200).body(historia));
 	}

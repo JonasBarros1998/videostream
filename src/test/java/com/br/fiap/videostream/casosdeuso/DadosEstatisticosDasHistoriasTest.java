@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class DadosEstatisticosDasHistoriasTest {
+public class DadosEstatisticosDasHistoriasTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -39,7 +39,7 @@ class DadosEstatisticosDasHistoriasTest {
 	}
 
 	@Test
-	void deveBuscarAQuantidadeTotalDeVideosEAMediaDeVisualizacoes() {
+	public void deveBuscarAQuantidadeTotalDeVideosEAMediaDeVisualizacoes() {
 
 		//Arrange
 		when(historiasRepository
@@ -55,7 +55,7 @@ class DadosEstatisticosDasHistoriasTest {
 	}
 
 	@Test
-	void deveBuscarQuantidadeTotalDosVideosFavoritados() {
+	public void deveBuscarQuantidadeTotalDosVideosFavoritados() {
 
 		//Arrange
 		when(favoritosRepository

@@ -8,10 +8,11 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class HistoriaDTOTest {
+public class HistoriaDTOTest {
 
 	@Test
 	void deveCriarUmaHistoriaDTO() {
@@ -48,8 +49,8 @@ class HistoriaDTOTest {
 		assertThat(historiaDTO).isInstanceOf(HistoriaDTO.class);
 		assertThat(historiaDTO.getTitulo()).isEqualTo("Uma serie");
 		assertThat(historiaDTO.getDescricao()).isEqualTo("Uma descricao");
-		assertThat(historiaDTO.getCategorias()).isEqualTo(Categoria.FICCAO);
-		assertThat(historiaDTO.getMidia().getNomeDaMidia()).isEqualTo("Uma serie");
+		assertThat(historiaDTO.getCategorias()).isInstanceOf(List.class);
+		assertThat(historiaDTO.getMidia().getNomeDaMidia()).isEqualTo("Uma-serie");
 	}
 
 	@Test

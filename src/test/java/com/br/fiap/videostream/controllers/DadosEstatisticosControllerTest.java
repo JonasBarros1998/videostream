@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @ActiveProfiles(value = "test")
 @AutoConfigureMockMvc
 @SpringBootTest
-class DadosEstatisticosControllerTest {
+public class DadosEstatisticosControllerTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -43,7 +43,7 @@ class DadosEstatisticosControllerTest {
 	}
 
 	@Test
-	void deveRetornarStatus200AoCalcularOTotalDeHistoriasEMediaDeVisualizacoes() {
+	public void deveRetornarStatus200AoCalcularOTotalDeHistoriasEMediaDeVisualizacoes() {
 		//Arrange
 		when(dadosEstatisticosDasHistorias.buscarQuantidadeTotalDeHistoriasEMediaDeVisualizacoes())
 			.thenReturn(Flux.just(new QuantidadeTotalDeVideosEMediaDeVisualizacoesDTO(20.0, 10)));
@@ -58,7 +58,7 @@ class DadosEstatisticosControllerTest {
 	}
 
 	@Test
-	void deveRetornarStatus200AoContarQuantidadeDeHistoriasFavoritadas() {
+	public void deveRetornarStatus200AoContarQuantidadeDeHistoriasFavoritadas() {
 		//Arrange
 		when(dadosEstatisticosDasHistorias.buscarQuantidadeTotalDeHistoriasFavoritadas())
 			.thenReturn(Flux.just(new QuantidadeTotalDeHistoriasFavoritadasDTO(10)));

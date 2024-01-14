@@ -14,6 +14,7 @@ import com.br.fiap.videostream.view.DTO.HistoriaDTO;
 import com.br.fiap.videostream.view.forms.AdicionarHistoriaComoFavoritoForm;
 import com.br.fiap.videostream.view.forms.AtualizarHistoriaForm;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +30,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.*;
 
 
@@ -37,7 +40,7 @@ import static org.mockito.ArgumentMatchers.any;
 @ActiveProfiles(value = "test")
 @AutoConfigureMockMvc
 @SpringBootTest(classes = VideostreamApplication.class)
-class HistoriaControllerTest {
+public class HistoriaControllerTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -70,11 +73,12 @@ class HistoriaControllerTest {
 	@InjectMocks
 	private HistoriasController historiasController;
 
+	@InjectMocks
 	private AdicionarVisualizacaoDeUmaHistoria adicionarVisualizacaoDeUmaHistoria;
 
 	private WebTestClient webTestClient;
 
-	private Historia historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(), 10);
+	private Historia historia = new Historia("Um titulo", "Uma descricao", Arrays.asList(Categoria.TERROR), new Midia(), 10);
 
 	@BeforeEach
 	void setUp() {
@@ -93,7 +97,7 @@ class HistoriaControllerTest {
 	}
 
 	@Test
-	void deveCriarHistorias() {
+	public void deveCriarHistorias() {
 		//Arrange
 		HistoriaForm requestBody = new HistoriaForm(this.historia.getTitulo(), this.historia.getDescricao(), this.historia.getCategorias());
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
@@ -109,7 +113,7 @@ class HistoriaControllerTest {
 	}
 
 	@Test
-	void quandoConsultarPorTituloDeveRetornarUmaHistoriaEStatus200() {
+	public void quandoConsultarPorTituloDeveRetornarUmaHistoriaEStatus200() {
 		//Arrange
 		when(historiasRepository.findByTituloAndStatusIsTrue(any(String.class))).thenReturn(Mono.just(historia));
 		when(acessarUrlDaMidia.buscarUrlDaMidia("arquivo.mp4")).thenReturn("http://gerar-url-temporaria");
@@ -132,14 +136,13 @@ class HistoriaControllerTest {
 	}
 
 	@Test
-	void AdicionarHistoriaComoFavoritaDeveRetornarStatus201() {
+	public void AdicionarHistoriaComoFavoritaDeveRetornarStatus201() {
 		//Arrange
-		var midiaID = "123456789";
+		var historiaId = "65a2d148630ba01b615fa898";
 
-		var adicionarHistoriaComoFavoritoForm = new AdicionarHistoriaComoFavoritoForm("");
+		var adicionarHistoriaComoFavoritoForm = new AdicionarHistoriaComoFavoritoForm(historiaId);
 
-		var favoritos = new Favoritos(midiaID);
-		favoritos.addHistorias(historia);
+		var favoritos = new Favoritos(new ObjectId(historiaId));
 
 		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
 		when(favoritosRepository.save(any(Favoritos.class))).thenReturn(Mono.just(favoritos));
@@ -156,9 +159,9 @@ class HistoriaControllerTest {
 	}
 
 	@Test
-	void aoAtualizarUmaHistoriaDeveRetornarstatus200() {
+	public void aoAtualizarUmaHistoriaDeveRetornarstatus200() {
 		//Arrange
-		var atualizarHistoriaForm = new AtualizarHistoriaForm("Um titulo", "Uma descricao", Categoria.ACAO);
+		var atualizarHistoriaForm = new AtualizarHistoriaForm("Um titulo", "Uma descricao", Arrays.asList(Categoria.ACAO));
 
 		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
@@ -176,7 +179,7 @@ class HistoriaControllerTest {
 
 
 	@Test
-	void deveDesativarHistoriasERetornarStatus204() {
+	public void deveDesativarHistoriasERetornarStatus204() {
 		//Arrange
 		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
@@ -190,13 +193,13 @@ class HistoriaControllerTest {
 	}
 
 	@Test
-	void deveAdicionarUmaVisualizacaoNaHistoriaERetornarStatus200() {
+	public void deveAdicionarUmaVisualizacaoNaHistoriaERetornarStatus200() {
 		//Arrange
 		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
 		when(historiasRepository.save(any(Historia.class))).thenReturn(Mono.just(historia));
 
 		//Act & Assert
-		webTestClient.delete()
+		webTestClient.post()
 			.uri("/api/historias/visualizacao/{id}", "123456789")
 			.exchange()
 			.expectStatus()

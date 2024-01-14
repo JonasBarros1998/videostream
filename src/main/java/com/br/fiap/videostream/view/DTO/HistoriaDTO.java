@@ -1,6 +1,5 @@
 package com.br.fiap.videostream.view.DTO;
 
-import com.br.fiap.videostream.adapters.DTO.IHistoriaDTO;
 import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class HistoriaDTO implements IHistoriaDTO {
+public class HistoriaDTO {
 
 	private HistoriaForm historiaForm;
 
@@ -43,7 +42,6 @@ public class HistoriaDTO implements IHistoriaDTO {
 		this.historiaForm = historiaForm;
 	}
 
-	@Override
 	public HistoriaDTO converterHistoriaFormParaHistoriaDTO() {
 		return new HistoriaDTO(
 			this.historiaForm.titulo(),

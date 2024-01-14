@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles(value = "test")
 @AutoConfigureMockMvc
 @SpringBootTest
-class EnviarMidiaAoBucketControllerTest {
+public class EnviarMidiaAoBucketControllerTest {
 
 	@InjectMocks
 	private UploadDeMidiaController uploadDeMidiaController;
@@ -56,7 +56,7 @@ class EnviarMidiaAoBucketControllerTest {
 	}
 
 	@Test
-	void deveFazerUploadDasMidias() throws IOException {
+	public void deveFazerUploadDasMidias() throws IOException {
 		//Arrange
 		MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
 

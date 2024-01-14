@@ -7,6 +7,7 @@ import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
 import com.br.fiap.videostream.view.forms.AdicionarHistoriaComoFavoritoForm;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,11 +17,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import java.util.Arrays;
+
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class MarcarHistoriaComoFavoritaTest {
+public class MarcarHistoriaComoFavoritaTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -40,15 +44,14 @@ class MarcarHistoriaComoFavoritaTest {
 	}
 
 	@Test
-	void deveMarcarUmVideComoFavorito() {
+	public void deveMarcarUmVideComoFavorito() {
 		//Arrange
-		final var idDaMidia = "123456789";
+		final var idDaMidia = "65a2d148630ba01b615fa898";
 		var adicionarHistoriaComoFavorita = new AdicionarHistoriaComoFavoritoForm(idDaMidia);
-		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(), 10);
+		var historia = new Historia("Um titulo", "Uma descricao", Arrays.asList(Categoria.TERROR), new Midia(), 10);
 
-		var favoritos = new Favoritos(idDaMidia);
-		favoritos.addHistorias(historia);
-
+		var favoritos = new Favoritos(new ObjectId(idDaMidia));
+		favoritos.setId("65a2d148630ba01b615fa898");
 		when(historiasRepository.findById(any(String.class))).thenReturn(Mono.just(historia));
 		when(favoritosRepository.save(any(Favoritos.class))).thenReturn(Mono.just(favoritos));
 
@@ -56,10 +59,10 @@ class MarcarHistoriaComoFavoritaTest {
 		StepVerifier
 			.create(marcarHistoriaComoFavorita.adicionar(adicionarHistoriaComoFavorita))
 			.expectNextMatches(verificar -> {
-				var tituloEhNulo = verificar.getTitulo() != null;
-				var descricaoEhNulo = verificar.getDescricao() != null;
-				var categoriaEhNulo = verificar.getCategoria() != null;
-				return tituloEhNulo & descricaoEhNulo & categoriaEhNulo;
+				System.out.println("verificar >> " + verificar);
+				var tituloEhNulo = verificar.getHistoriaId() != null;
+				var descricaoEhNulo = verificar.getId() != null;
+				return tituloEhNulo & descricaoEhNulo;
 			})
 			.expectComplete()
 			.verify();

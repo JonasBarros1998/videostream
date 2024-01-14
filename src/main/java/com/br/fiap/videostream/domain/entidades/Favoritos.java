@@ -24,14 +24,7 @@ public class Favoritos {
 		return id;
 	}
 
-	/*
-	public List<Historia> getHistorias() {
-		return historias;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	public Favoritos addHistorias(Historia historia) {
-		historias.add(historia);
-		return this;
-	}*/
-
 }

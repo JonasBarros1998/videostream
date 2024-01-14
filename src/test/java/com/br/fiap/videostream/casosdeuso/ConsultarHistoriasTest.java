@@ -6,6 +6,7 @@ import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.infra.bancodedados.FavoritosRepository;
 import com.br.fiap.videostream.infra.bancodedados.HistoriasRepository;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,11 +20,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class ConsultarHistoriasTest {
+public class ConsultarHistoriasTest {
 
 	@Mock
 	private HistoriasRepository historiasRepository;
@@ -39,7 +42,7 @@ class ConsultarHistoriasTest {
 
 	AutoCloseable mock;
 
-	final Historia historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
+	final Historia historia = new Historia("Um titulo", "Uma descricao", Arrays.asList(Categoria.TERROR), new Midia(),10);
 
 	@BeforeEach
 	void setup() {
@@ -48,7 +51,7 @@ class ConsultarHistoriasTest {
 	}
 
 	@Test
-	void deveConsultarTodasAsHistorias() {
+	public void deveConsultarTodasAsHistorias() {
 		//Arrange
 		Pageable paginacao = PageRequest.of(0, 10);
 		when(historiasRepository.findAll(any(Pageable.class))).thenReturn(Flux.just(historia));
@@ -62,10 +65,9 @@ class ConsultarHistoriasTest {
 	}
 
 	@Test
-	void deveConsultarAsHistoriasPorTitulo() {
+	public void deveConsultarAsHistoriasPorTitulo() {
 		//Assert
 		final var tituloDaHistoria = "Um titulo";
-		var historia = new Historia("Um titulo", "Uma descricao", Categoria.TERROR, new Midia(),10);
 
 		when(historiasRepository.findByTituloAndStatusIsTrue(any(String.class))).thenReturn(Mono.just(historia));
 
@@ -78,7 +80,7 @@ class ConsultarHistoriasTest {
 	}
 
 	@Test
-	void deveConsultarHistoriasPorCategoria() {
+	public void deveConsultarHistoriasPorCategoria() {
 		//Arrange
 		final Pageable paginacao = PageRequest.of(1, 10);
 		final var tituloDaHistoria = "Um titulo";
@@ -93,11 +95,11 @@ class ConsultarHistoriasTest {
 	}
 
 	@Test
-	void deveConsultarHistoriasPorFavoritos() {
+	public void deveConsultarHistoriasPorFavoritos() {
 		//Arrange
-		final var video = "123456789";
+		final var id = "65a2d148630ba01b615fa898";
 		final Pageable paginacao = PageRequest.of(0, 10);
-		when(favoritosRepository.findAll(any(Pageable.class))).thenReturn(Flux.just(new Favoritos(video)));
+		when(favoritosRepository.findAll(any(Pageable.class))).thenReturn(Flux.just(new Favoritos(new ObjectId(id))));
 
 		//Act & Assert
 		StepVerifier

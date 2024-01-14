@@ -41,7 +41,7 @@ import static org.mockito.Mockito.*;
 
 @ActiveProfiles(value = "test")
 @SpringBootTest
-class EnviarMidiaAoBucketTest {
+public class EnviarMidiaAoBucketTest {
 
 	AutoCloseable mock;
 
@@ -92,7 +92,7 @@ class EnviarMidiaAoBucketTest {
 	}
 
 	@Test
-	void deveEnviarAMidiaParaUmBucketDoS3() throws FileNotFoundException {
+	public void deveEnviarAMidiaParaUmBucketDoS3() throws FileNotFoundException {
 		//Arrange
 		/*
 		var historiaID = "123456789";

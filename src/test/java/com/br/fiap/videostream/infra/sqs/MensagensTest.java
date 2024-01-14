@@ -31,7 +31,7 @@ public class MensagensTest {
 	}
 
 	@Test
-	void deveEnviarMensagensParaAFilaDoSQS() {
+	public void deveEnviarMensagensParaAFilaDoSQS() {
 		//Arrange
 		var prepararMensagem = "{nomeDaMidia: \"minha_midia.mp4\"}";
 		when(sqsAsyncClient.sendMessage(any(SendMessageRequest.class))).thenReturn(any());
