@@ -39,7 +39,7 @@
 
 
  ##### links úteis
- [conexão com o banco de dados]()
+ [conexão com o banco de dados](https://github.com/JonasBarros1998/videostream/blob/main/src/main/java/com/br/fiap/videostream/infra/bancodedados/conexao/Conexao.java)
  [configuração de paginação](https://github.com/JonasBarros1998/videostream/blob/main/src/main/java/com/br/fiap/videostream/infra/bancodedados/paginacao/PaginacaoHandler.java)
 
 
