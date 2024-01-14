@@ -32,7 +32,7 @@ public class DadosEstatisticosDasHistorias implements IDadosEstatisticosDasHisto
 	}
 
 	public Flux<QuantidadeTotalDeHistoriasFavoritadasDTO> buscarQuantidadeTotalDeHistoriasFavoritadas() {
-		return this.historiasRepository
+		return this.favoritosRepository
 			.obterTodosOsVideosFavoritados()
 			.map(favoritos -> new QuantidadeTotalDeHistoriasFavoritadasDTO(favoritos.getTotalDeHistoriasFavoritadas()));
 	}

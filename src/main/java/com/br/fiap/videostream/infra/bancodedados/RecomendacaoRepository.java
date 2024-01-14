@@ -14,6 +14,7 @@ import java.util.List;
 public interface RecomendacaoRepository extends ReactiveMongoRepository<Historia, String> {
 
 	@Aggregation(pipeline = {
+		"{$match: {status: true}}",
 		"{$lookup: {from: 'favoritos',localField: '_id',foreignField: 'videoId',as: 'favoritos'}}",
 		"{$match: {'categorias': {$elemMatch: { $in: :#{#categorias}}}}}",
 		"{$unset: 'favoritos'}"})

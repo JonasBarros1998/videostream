@@ -58,7 +58,7 @@ public class DadosEstatisticosDasHistoriasTest {
 	public void deveBuscarQuantidadeTotalDosVideosFavoritados() {
 
 		//Arrange
-		when(historiasRepository
+		when(favoritosRepository
 			.obterTodosOsVideosFavoritados())
 			.thenReturn(Flux.just(new QuantidadeTotalDeHistoriasFavoritadasProjection()));
 

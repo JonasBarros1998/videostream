@@ -4,6 +4,7 @@ import com.br.fiap.videostream.domain.entidades.Historia;
 import com.br.fiap.videostream.domain.entidades.Midia;
 import com.br.fiap.videostream.domain.enuns.Categoria;
 import com.br.fiap.videostream.view.forms.HistoriaForm;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,8 @@ public class HistoriaDTO {
 
 	private String titulo;
 	private String descricao;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String id;
 	private List<Categoria> categorias;
 

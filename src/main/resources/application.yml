@@ -1,0 +1,35 @@
+#spring.servlet.multipart.max-file-size=10MB
+#spring.servlet.multipart.max-request-size=10MB
+
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10GB
+      max-request-size: 10GB
+      location: ${java.io.tmpdir}
+      file-size-threshold: 10GB
+  jpa:
+    defer-datasource-initialization:
+
+seguranca:
+  chave: 0000000000000000000000000000000
+  algoritimo: AES/CFB/PKCS5Padding
+  initVector: 0000000000000000
+
+aplicacao:
+  s3:
+    buckets:
+      videos-processados: "midias-processadas-testes"
+      videos-nao-processados: "midias-nao-processadas-testes"
+  iam:
+    arn: "arn:aws:iam::000000000000:role/processamento_de_videos_test"
+  sqs:
+    url: "https://sqs.ab-teste-1.amazonaws.com/000000000000/fila-url-teste"
+
+logging:
+  level:
+    org:
+      springframework:
+        web: debug
