@@ -1,5 +1,8 @@
 # Tech Challange - Fase 4 | Serviço de Stream
 
+# Arquitetura
+![arquitetura](https://firebasestorage.googleapis.com/v0/b/app-english-class.appspot.com/o/postech-fase4%2Fservico-stream-de-videos.png?alt=media&token=44562634-f897-4a30-acdb-70616c862270)
+
 # Inicializar a aplicação
 
 ### Configuração da infraestrutura na AWS
