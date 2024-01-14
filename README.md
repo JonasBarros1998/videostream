@@ -40,7 +40,7 @@
 
  ##### links úteis
  [conexão com o banco de dados]()
- [configuração de paginação]()
+ [configuração de paginação](https://github.com/JonasBarros1998/videostream/blob/main/src/main/java/com/br/fiap/videostream/infra/bancodedados/paginacao/PaginacaoHandler.java)
 
 
  ##### collection postman
