@@ -47,5 +47,5 @@
 
 
  ##### collection postman
- [COLEÇÂO - POSTMAN](https://firebasestorage.googleapis.com/v0/b/app-english-class.appspot.com/o/postech-fase4%2Fvideo-stream.postman_collection.json?alt=media&token=434cc55f-bc34-4bf3-bcaa-076fd584cfd2)
+ [COLEÇÃO - POSTMAN](https://firebasestorage.googleapis.com/v0/b/app-english-class.appspot.com/o/postech-fase4%2Fvideo-stream.postman_collection.json?alt=media&token=434cc55f-bc34-4bf3-bcaa-076fd584cfd2)
 
